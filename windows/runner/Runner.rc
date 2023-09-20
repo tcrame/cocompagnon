@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "fr.vonwhopper" "\0"
-            VALUE "FileDescription", "cocompagnon2" "\0"
+            VALUE "FileDescription", "cocompagnon" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "cocompagnon2" "\0"
+            VALUE "InternalName", "cocompagnon" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 fr.vonwhopper. All rights reserved." "\0"
-            VALUE "OriginalFilename", "cocompagnon2.exe" "\0"
-            VALUE "ProductName", "cocompagnon2" "\0"
+            VALUE "OriginalFilename", "cocompagnon.exe" "\0"
+            VALUE "ProductName", "cocompagnon" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

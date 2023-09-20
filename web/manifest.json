@@ -1,6 +1,6 @@
 {
-    "name": "cocompagnon2",
-    "short_name": "cocompagnon2",
+    "name": "cocompagnon",
+    "short_name": "cocompagnon",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

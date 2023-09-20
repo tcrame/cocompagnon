@@ -1,4 +1,4 @@
-# cocompagnon2
+# cocompagnon
 
 A compagnon for GM of chronique oubliés
 

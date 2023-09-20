@@ -1,4 +1,4 @@
-package fr.vonwhopper.cocompagnon2
+package fr.vonwhopper.cocompagnon
 
 import io.flutter.embedding.android.FlutterActivity
 
