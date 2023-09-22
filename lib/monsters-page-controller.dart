@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cocompagnon/monster.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
+import 'belligerent.dart';
 import 'monster-ids.dart';
 
 class MonstersPageController extends ChangeNotifier {
@@ -12,7 +15,12 @@ class MonstersPageController extends ChangeNotifier {
   List<Monster> filteredMonsters = [];
   Set<MonsterType> monsterTypeFilters = {};
   Set<MonsterEnvironment> monsterEnvironmentFilters = {};
+  Set<MonsterArchetype> monsterArchetypeFilters = {};
+  Set<MonsterBossType> monsterBossTypeFilters = {};
+  MonsterOrderBy currentOrderBy = MonsterOrderBy.alphabetic;
+  TextEditingController orderByController = TextEditingController();
   String currentKeyWords = "";
+  var uuidGenerator = const Uuid();
 
   Future<void> loadAllCreatures() async {
     if (allMonsters.length != monsterIds.length) {
@@ -45,11 +53,16 @@ class MonstersPageController extends ChangeNotifier {
     } else {
       creatureJson = storedCreature;
     }
-    allMonsters.add(buildMonster(id, creatureJson));
+    if (creatureJson != null) {
+      allMonsters.add(buildMonster(id, creatureJson));
+    } else {
+      print("monster id $id is null");
+    }
   }
 
   Future<void> saveMonster(int id, dynamic monsterJson) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("save monster id in shared prefs $id");
     await prefs.setString("monster$id", jsonEncode(monsterJson));
   }
 
@@ -75,12 +88,14 @@ class MonstersPageController extends ChangeNotifier {
 
     MonsterType monsterType = MonsterType.fromName(getValueFromJson(creatureJson, "category", null));
     MonsterEnvironment monsterEnvironment = MonsterEnvironment.fromName(getValueFromJson(creatureJson, "environment", null));
+    MonsterArchetype monsterArchetype = MonsterArchetype.fromName(getValueFromJson(creatureJson, "archetype", null));
+    MonsterBossType monsterBossType = MonsterBossType.fromName(getValueFromJson(creatureJson, "boss_type", null));
     double ncLevel = double.parse(getValueFromJson(creatureJson, "level", "-1")!);
     int defense = int.parse(getValueFromJson(creatureJson, "defense", "-1")!);
     int initiative = int.parse(getValueFromJson(creatureJson, "init", "-1")!);
     int healthPoint = int.parse(getValueFromJson(creatureJson, "health_point", "-1")!);
 
-    return Monster(id, name, creatureTokenUrl, monsterType, monsterEnvironment, ncLevel, defense, initiative, healthPoint);
+    return Monster(id, name, creatureTokenUrl, monsterType, monsterEnvironment, ncLevel, defense, initiative, healthPoint, monsterArchetype, monsterBossType);
   }
 
   String? getValueFromJson(dynamic creatureJson, String key, String? defaultValue) {
@@ -110,6 +125,14 @@ class MonstersPageController extends ChangeNotifier {
       results = results.where((monster) => monsterEnvironmentFilters.contains(monster.environment)).toList();
     }
 
+    if (monsterArchetypeFilters.isNotEmpty) {
+      results = results.where((monster) => monsterArchetypeFilters.contains(monster.archetype)).toList();
+    }
+
+    if (monsterBossTypeFilters.isNotEmpty) {
+      results = results.where((monster) => monsterBossTypeFilters.contains(monster.bossType)).toList();
+    }
+
     filteredMonsters = results;
     sortMonsterAndNotify();
   }
@@ -121,7 +144,20 @@ class MonstersPageController extends ChangeNotifier {
   }
 
   sortMonsterAndNotify() {
-    filteredMonsters.sort((a, b) => a.name.compareTo(b.name));
+
+    switch(currentOrderBy) {
+      case MonsterOrderBy.reverseAlphabetic:
+        filteredMonsters.sort((a, b) => b.name.compareTo(a.name));
+        break;
+      case MonsterOrderBy.minNC:
+        filteredMonsters.sort((a, b) => b.ncLevel.compareTo(a.ncLevel));
+        break;
+      case MonsterOrderBy.maxNc:
+        filteredMonsters.sort((a, b) => a.ncLevel.compareTo(b.ncLevel));
+        break;
+      default:
+        filteredMonsters.sort((a, b) => a.name.compareTo(b.name));
+    }
     notifyListeners();
   }
 
@@ -141,5 +177,62 @@ class MonstersPageController extends ChangeNotifier {
       monsterEnvironmentFilters.add(monsterEnvironment);
     }
     applyFilters();
+  }
+
+  void removeOrAddMonsterArchetypeFilterSelection(bool selected, MonsterArchetype monsterEnvironment) {
+    if (selected) {
+      monsterArchetypeFilters.remove(monsterEnvironment);
+    } else {
+      monsterArchetypeFilters.add(monsterEnvironment);
+    }
+    applyFilters();
+  }
+
+  void removeOrAddMonsterBossTypeFilterSelection(bool selected, MonsterBossType monsterBossType) {
+    if (selected) {
+      monsterBossTypeFilters.remove(monsterBossType);
+    } else {
+      monsterBossTypeFilters.add(monsterBossType);
+    }
+    applyFilters();
+  }
+
+  void addMonsterInTracker(Monster monster) {
+    addBelligerent(monster.name, monster.defense, monster.initiative, monster.healthPoint, monster.healthPoint, BelligerentType.enemy);
+  }
+
+  addBelligerent(String name, int defense, int initiative, int currentPv, int maxPv, BelligerentType? belligerentType) {
+    int currentInit = initiative + Random().nextInt(6) + 1;
+    String uuid = uuidGenerator.v1();
+    var newBelligerent = Belligerent(
+        name: name,
+        defense: defense,
+        initiative: initiative,
+        currentPv: currentPv,
+        maxPv: maxPv,
+        belligerentType: belligerentType,
+        currentInitiative: currentInit,
+        uuid: uuid,
+        debuffs: <BelligerentDebuff>[]);
+    saveBelligerent(newBelligerent);
+    addInBelligerentIds(uuid);
+  }
+
+  Future<void> saveBelligerent(Belligerent belligerent) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(belligerent.uuid, jsonEncode(belligerent.toJson()));
+  }
+
+  Future<void> addInBelligerentIds(String newUuid) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? ids = prefs.getStringList("belligerentIds");
+    ids ??= [];
+    ids.add(newUuid);
+    await prefs.setStringList("belligerentIds", ids);
+  }
+
+  void changeSortingDirection(MonsterOrderBy orderBy) {
+    currentOrderBy = orderBy;
+    sortMonsterAndNotify();
   }
 }

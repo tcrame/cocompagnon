@@ -14,6 +14,8 @@ class CombatPageController extends ChangeNotifier {
   TextEditingController currentPvController = TextEditingController();
   TextEditingController debuffCommentController = TextEditingController();
   TextEditingController debuffNbTurnsController = TextEditingController();
+  TextEditingController addDamageController = TextEditingController();
+  TextEditingController removeDamageController = TextEditingController();
   BelligerentType? belligerentType = BelligerentType.ally;
   BelligerentDebuffType belligerentDebuffType = BelligerentDebuffType.blind;
   int turn = 1;
@@ -216,5 +218,44 @@ class CombatPageController extends ChangeNotifier {
     }
     debuffCommentController.text = belligerentDebuffType.description;
     debuffNbTurnsController.text = '1';
+  }
+
+  void removeHealthFromBelligerent(Belligerent belligerent) {
+    if (belligerent.currentPv > 0) {
+      belligerent.currentPv = belligerent.currentPv - 1;
+      notifyListeners();
+    }
+  }
+
+  void addHealthFromBelligerent(Belligerent belligerent) {
+    if (belligerent.currentPv < belligerent.maxPv) {
+      belligerent.currentPv = belligerent.currentPv + 1;
+      notifyListeners();
+    }
+  }
+
+  void resetDmControllers() {
+    removeDamageController.text = "";
+    addDamageController.text = "";
+  }
+
+  void inflictDamage(Belligerent belligerent) {
+    var damages = addDamageController.text != "" ? int.parse(addDamageController.text) : 0;
+    belligerent.currentPv = belligerent.currentPv - damages;
+
+    if(belligerent.currentPv < 0) {
+      belligerent.currentPv = 0;
+    }
+    notifyListeners();
+  }
+
+  void healDamage(Belligerent belligerent) {
+    var healthToHeal = removeDamageController.text != "" ? int.parse(removeDamageController.text) : 0;
+    belligerent.currentPv = belligerent.currentPv + healthToHeal;
+
+    if(belligerent.currentPv > belligerent.maxPv) {
+      belligerent.currentPv = belligerent.maxPv;
+    }
+    notifyListeners();
   }
 }

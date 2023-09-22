@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cocompagnon/combat-page-controller.dart';
 import 'package:cocompagnon/combat-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'belligerent.dart';
@@ -52,11 +54,18 @@ class MonstersPage extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
+              SizedBox(
+                height: 130,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade900,
+                  ),
+                  child: Text('Menu',
+                      style: GoogleFonts.kalam(
+                        color: Colors.white,
+                        fontSize: 40,
+                      )),
                 ),
-                child: Text('Menu'),
               ),
               ListTile(
                 title: const Text('Tracker de combat'),
@@ -83,11 +92,18 @@ class MonstersPage extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
+              SizedBox(
+                height: 130,
+                child: DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Text('Filtres',
+                      style: GoogleFonts.kalam(
+                        color: Colors.white,
+                        fontSize: 40,
+                      )),
                 ),
-                child: Text('Filtres'),
               ),
               Center(
                 child: Column(
@@ -149,6 +165,73 @@ class MonstersPage extends StatelessWidget {
                         );
                       }).toList(),
                     ),
+                    const Text('Archetype'),
+                    const SizedBox(height: 5.0),
+                    Wrap(
+                      spacing: 5.0,
+                      children: MonsterArchetype.values.map((MonsterArchetype monsterArchetype) {
+                        var selectedFilter = controller.monsterArchetypeFilters.contains(monsterArchetype);
+                        return FilterChip(
+                          backgroundColor: Colors.white,
+                          selectedColor: Colors.green,
+                          label: Text(
+                            monsterArchetype.label,
+                            style: TextStyle(
+                              color: selectedFilter == true ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          shape: StadiumBorder(
+                            side: BorderSide(
+                              color: selectedFilter == true ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          selected: selectedFilter,
+                          onSelected: (bool selected) {
+                            controller.removeOrAddMonsterArchetypeFilterSelection(selectedFilter, monsterArchetype);
+                          },
+                          showCheckmark: false,
+                        );
+                      }).toList(),
+                    ),
+                    const Text('Type de boss'),
+                    const SizedBox(height: 5.0),
+                    Wrap(
+                      spacing: 5.0,
+                      children: MonsterBossType.values.map((MonsterBossType monsterBossType) {
+                        var selectedFilter = controller.monsterBossTypeFilters.contains(monsterBossType);
+                        return FilterChip(
+                          backgroundColor: Colors.white,
+                          selectedColor: Colors.green,
+                          label: Text(
+                            monsterBossType.label,
+                            style: TextStyle(
+                              color: selectedFilter == true ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          shape: StadiumBorder(
+                            side: BorderSide(
+                              color: selectedFilter == true ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          selected: selectedFilter,
+                          onSelected: (bool selected) {
+                            controller.removeOrAddMonsterBossTypeFilterSelection(selectedFilter, monsterBossType);
+                          },
+                          showCheckmark: false,
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height:30.0),
+                    DropdownMenu<MonsterOrderBy>(
+                      initialSelection: MonsterOrderBy.alphabetic,
+                      controller: controller.orderByController,
+                      label: const Text('Trier par'),
+                      dropdownMenuEntries: MonsterOrderBy.values.map((orderBy) => DropdownMenuEntry<MonsterOrderBy>(value: orderBy, label: orderBy.label, enabled: true)).toList(),
+                      onSelected: (MonsterOrderBy? orderBy) {
+                        controller.changeSortingDirection(orderBy ?? MonsterOrderBy.alphabetic);
+                      },
+                    ),
+                    const SizedBox(height: 30.0),
                   ],
                 ),
               )
@@ -201,43 +284,106 @@ class MonstersPage extends StatelessWidget {
                                           borderRadius: BorderRadius.all(Radius.circular(5)),
                                         ),
                                         height: 80,
-                                        child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: IntrinsicWidth(
-                                                child: Container(
-                                                    child: Column(children: [
-                                                      Container(
-                                                          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-                                                          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-                                                            Image.network(
-                                                              monster.creatureTokenUrl,
-                                                              width: 30,
-                                                              height: 30,
-                                                            ),
-                                                            Text('  ${monster.name}'),
-                                                            Text(' - ${monster.type.label}'),
-                                                            Text(' - NC : ${monster.getFormatedNcLevel()}'),
-                                                          ])),
-                                                      Container(
-                                                          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-                                                          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-                                                            const Icon(
-                                                              Icons.security,
-                                                              color: Colors.blueAccent,
-                                                            ),
-                                                            Text('  ${monster.defense}'),
-                                                            const Icon(
-                                                              Icons.favorite,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 9,
+                                              child: SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: IntrinsicWidth(
+                                                      child: Container(
+                                                          child: Column(children: [
+                                                    Container(
+                                                        padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                                                        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                                                          CachedNetworkImage(
+                                                            height: 30,
+                                                            width: 30,
+                                                            imageUrl: monster.creatureTokenUrl,
+                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                CircularProgressIndicator(value: downloadProgress.progress),
+                                                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                          ),
+                                                          Text(
+                                                            monster.name,
+                                                            style: GoogleFonts.kalam(
                                                               color: Colors.red,
+                                                              fontSize: 16,
                                                             ),
-                                                            Text('  ${monster.healthPoint}'),
-                                                            const Icon(
-                                                              Icons.trending_up_outlined,
-                                                              color: Colors.green,
+                                                          ),
+                                                          Text(
+                                                            ' - ${monster.type.label}',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.red,
+                                                              fontSize: 16,
                                                             ),
-                                                            Text('  ${monster.initiative}'),
-                                                          ])),
-                                                    ]))))));
+                                                          ),
+                                                        ])),
+                                                    Container(
+                                                        padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                                                        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                                                          const Icon(
+                                                            Icons.security,
+                                                            color: Colors.blueAccent,
+                                                          ),
+                                                          Text(
+                                                            '${monster.defense}',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            Icons.favorite,
+                                                            color: Colors.red,
+                                                          ),
+                                                          Text(
+                                                            '${monster.healthPoint}',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            Icons.trending_up_outlined,
+                                                            color: Colors.green,
+                                                          ),
+                                                          Text(
+                                                            '${monster.initiative}',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            ' NC : ${monster.getFormatedNcLevel()}',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                        ])),
+                                                  ])))),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: PopupMenuButton<int>(
+                                                itemBuilder: (context) => [
+                                                  PopupMenuItem(
+                                                      value: 1,
+                                                      child: ElevatedButton.icon(
+                                                        icon: const Icon(Icons.add),
+                                                        label: const Text('Ajouter dans le tracker de combat'),
+                                                        onPressed: () {
+                                                          controller.addMonsterInTracker(monster);
+                                                          Navigator.pop(context);
+                                                        },
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )));
                               },
                               separatorBuilder: (BuildContext context, int index) => const Divider(),
                             )

@@ -2,6 +2,7 @@ import 'package:cocompagnon/combat-page-controller.dart';
 import 'package:cocompagnon/monsters-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'belligerent.dart';
@@ -48,18 +49,21 @@ class CombatPage extends StatelessWidget {
                     )),
               ])),
           drawer: Drawer(
-            // Add a ListView to the drawer. This ensures the user can scroll
-            // through the options in the drawer if there isn't enough vertical
-            // space to fit everything.
             child: ListView(
-              // Important: Remove any padding from the ListView.
               padding: EdgeInsets.zero,
               children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
+                SizedBox(
+                  height: 130,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade900,
+                    ),
+                    child: Text('Menu',
+                        style: GoogleFonts.kalam(
+                          color: Colors.white,
+                          fontSize: 40,
+                        )),
                   ),
-                  child: Text('Menu'),
                 ),
                 ListTile(
                   title: const Text('Tracker de combat'),
@@ -103,72 +107,131 @@ class CombatPage extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
-                      height: 70,
-                      child: Center(
-                          child: Row(
-                        children: <Widget>[
+                      height: 100,
+                      child: Row(
+                        children: [
                           Expanded(
-                              flex: 6,
-                              child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Row(children: <Widget>[
-                                    Text(
-                                      '${belligerent.name} - ',
-                                      style: TextStyle(
-                                        color: belligerent.belligerentType == BelligerentType.ally ? Colors.blue : Colors.red,
+                            flex: 9,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 6,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: Icon(
+                                                Icons.accessibility,
+                                                color: belligerent.belligerentType == BelligerentType.ally ? Colors.blue : Colors.red,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 9,
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(7,0,0,0),
+                                                child: SingleChildScrollView(
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Text(
+                                                      '${belligerent.name} ',
+                                                      style: GoogleFonts.kalam(
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                      ),
+                                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    const Icon(
-                                      Icons.shield,
-                                      color: Colors.blueGrey,
-                                    ),
-                                    Text('${belligerent.defense}'),
-                                    const Icon(
-                                      Icons.trending_up_outlined,
-                                      color: Colors.yellow,
-                                    ),
-                                    Text('${belligerent.currentInitiative}'),
-                                    const Icon(
-                                      Icons.favorite,
-                                      color: Colors.pink,
-                                    ),
-                                    Text('${belligerent.currentPv} / ${belligerent.maxPv}'),
-                                  ])))),
-                          Expanded(
-                            flex: 2,
-                            child: LinearProgressIndicator(
-                              value: controller.getCurrentRatioOfPvByUuid(belligerent.uuid),
-                              semanticsLabel: 'Linear progress indicator',
-                              valueColor: AlwaysStoppedAnimation<Color>(controller.getBelligerentBarColor(belligerent.uuid)),
+                                      Expanded(
+                                        flex: 3,
+                                        child: GestureDetector(
+                                            onTap: () => openEditHealthPointsAnimated(context, belligerent),
+                                            child: Stack(
+                                              children: <Widget>[
+                                                SizedBox(
+                                                    child: Container(
+                                                  margin: const EdgeInsets.symmetric(vertical: 6),
+                                                  height: 30,
+                                                  child: ClipRRect(
+                                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                                    child: LinearProgressIndicator(
+                                                      value: controller.getCurrentRatioOfPvByUuid(belligerent.uuid),
+                                                      backgroundColor: Colors.grey,
+                                                      valueColor: AlwaysStoppedAnimation<Color>(controller.getBelligerentBarColor(belligerent.uuid)),
+                                                    ),
+                                                  ),
+                                                )),
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "${belligerent.currentPv} / ${belligerent.maxPv}",
+                                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Visibility(
+                                          visible: belligerent.debuffs.isNotEmpty,
+                                          child: PopupMenuButton<int>(
+                                            icon: const Icon(Icons.sentiment_very_dissatisfied),
+                                            itemBuilder: (context) => belligerent.debuffs.map<PopupMenuItem<int>>((BelligerentDebuff currentDebuff) {
+                                              return PopupMenuItem(
+                                                  value: 1,
+                                                  child: ElevatedButton.icon(
+                                                    icon: Icon(currentDebuff.type?.icon),
+                                                    label: Text('${currentDebuff.type!.label} - (${currentDebuff.durationInTurn} tours)'), // <-- Text
+                                                    onPressed: () => openUpdateDebuff(context, belligerent.uuid, currentDebuff),
+                                                  ));
+                                            }).toList(),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 6,
+                                          child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(children: <Widget>[
+                                                const Icon(
+                                                  Icons.security,
+                                                  color: Colors.blueAccent,
+                                                ),
+                                                Text('${belligerent.defense}'),
+                                                const Icon(
+                                                  Icons.trending_up_outlined,
+                                                  color: Colors.green,
+                                                ),
+                                                Text('${belligerent.currentInitiative}'),
+                                              ]))),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Expanded(
-                              flex: 1,
-                              child: Visibility(
-                                visible: belligerent.debuffs.isNotEmpty,
-                                child: PopupMenuButton<int>(
-                                  icon: const Icon(Icons.sentiment_very_dissatisfied),
-                                  itemBuilder: (context) => belligerent.debuffs.map<PopupMenuItem<int>>((BelligerentDebuff currentDebuff) {
-                                    return PopupMenuItem(
-                                        value: 1,
-                                        child: ElevatedButton.icon(
-                                          icon: Icon(currentDebuff.type?.icon),
-                                          label: Text('${currentDebuff.type!.label} - (${currentDebuff.durationInTurn} tours)'), // <-- Text
-                                          onPressed: () => openUpdateDebuff(context, belligerent.uuid, currentDebuff),
-                                        ));
-                                  }).toList(),
-                                ),
-                              )),
                           Expanded(
                             flex: 1,
                             child: PopupMenuButton<int>(
                               itemBuilder: (context) => [
                                 PopupMenuItem(
                                     value: 1,
-                                    child: IconButton(
+                                    child: ElevatedButton.icon(
                                       icon: const Icon(Icons.delete),
+                                      label: const Text('Supprimer'),
                                       onPressed: () {
                                         controller.removeBelligerent(belligerent.uuid);
                                         Navigator.pop(context);
@@ -176,33 +239,35 @@ class CombatPage extends StatelessWidget {
                                     )),
                                 PopupMenuItem(
                                     value: 2,
-                                    child: IconButton(
+                                    child: ElevatedButton.icon(
                                       icon: const Icon(Icons.edit),
+                                      label: const Text('Modifier'),
                                       onPressed: () => openAddForm(context, belligerent.uuid),
                                     )),
                                 PopupMenuItem(
                                     value: 3,
-                                    child: IconButton(
+                                    child: ElevatedButton.icon(
                                       icon: const Icon(Icons.sentiment_very_dissatisfied),
+                                      label: const Text("Ajouter altération d'état"),
                                       onPressed: () => openAddDebuff(context, belligerent.uuid),
                                     )),
                               ],
                             ),
                           ),
                         ],
-                      )));
+                      ));
                 },
                 separatorBuilder: (BuildContext context, int index) => const Divider(),
               )),
           floatingActionButton: Wrap(
-            //will break to another line on overflow
             direction: Axis.horizontal, //use vertical to show  on vertical axis
             children: <Widget>[
-              Container(margin: EdgeInsets.all(10), child: FloatingActionButton(onPressed: () => openAddForm(context, ""), child: const Icon(Icons.add))),
+              Container(margin: EdgeInsets.all(10), child: FloatingActionButton(heroTag: "addBelligerent", onPressed: () => openAddForm(context, ""), child: const Icon(Icons.add))),
 
               Container(
                   margin: EdgeInsets.all(10),
                   child: FloatingActionButton(
+                    heroTag: "rollTurn",
                     onPressed: () {
                       controller.rollInitiatives();
                     },
@@ -402,7 +467,10 @@ class CombatPage extends StatelessWidget {
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             decoration: const InputDecoration(
                               labelText: "PV actuel",
-                              icon: Icon(Icons.favorite_border),
+                              icon: Icon(
+                                Icons.favorite_border,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                           TextFormField(
@@ -411,7 +479,10 @@ class CombatPage extends StatelessWidget {
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             decoration: const InputDecoration(
                               labelText: "Max PV",
-                              icon: Icon(Icons.favorite),
+                              icon: Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                           TextFormField(
@@ -420,7 +491,10 @@ class CombatPage extends StatelessWidget {
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             decoration: const InputDecoration(
                               labelText: "Defense",
-                              icon: Icon(Icons.shield),
+                              icon: Icon(
+                                Icons.security,
+                                color: Colors.blueAccent,
+                              ),
                             ),
                           ),
                           TextFormField(
@@ -429,7 +503,7 @@ class CombatPage extends StatelessWidget {
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             decoration: const InputDecoration(
                               labelText: "Initiative",
-                              icon: Icon(Icons.trending_up_outlined),
+                              icon: Icon(Icons.trending_up_outlined, color: Colors.green),
                             ),
                           ),
                           Column(
@@ -474,12 +548,14 @@ class CombatPage extends StatelessWidget {
                     ElevatedButton(
                       child: Text(updateUuid == "" ? "Ajouter" : "Modifier"),
                       onPressed: () {
+                        var defense = controller.defenseController.text != "" ? int.parse(controller.defenseController.text) : 0;
+                        var initiative = controller.initiativeController.text != "" ? int.parse(controller.initiativeController.text) : 0;
+                        var maxPv = controller.maxPvController.text != "" ? int.parse(controller.maxPvController.text) : 0;
+                        var currentPv = controller.currentPvController.text != "" ? int.parse(controller.currentPvController.text) : 0;
                         if (updateUuid == "") {
-                          controller.addBelligerent(controller.nameController.text, int.parse(controller.defenseController.text), int.parse(controller.initiativeController.text),
-                              int.parse(controller.currentPvController.text), int.parse(controller.maxPvController.text), controller.belligerentType);
+                          controller.addBelligerent(controller.nameController.text, defense, initiative, currentPv, maxPv, controller.belligerentType);
                         } else {
-                          controller.editBelligerent(updateUuid, controller.nameController.text, int.parse(controller.defenseController.text), int.parse(controller.initiativeController.text),
-                              int.parse(controller.currentPvController.text), int.parse(controller.maxPvController.text), controller.belligerentType);
+                          controller.editBelligerent(updateUuid, controller.nameController.text, defense, initiative, currentPv, maxPv, controller.belligerentType);
                           Navigator.pop(context);
                         }
                         Navigator.pop(context);
@@ -488,6 +564,196 @@ class CombatPage extends StatelessWidget {
                   ],
                 ));
       },
+    );
+  }
+
+  void openEditHealthPointsAnimated(BuildContext context, Belligerent belligerent) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (ctx, a1, a2) {
+        return Container();
+      },
+      transitionBuilder: (ctx, a1, a2, child) {
+        final controller = context.watch<CombatPageController>();
+        controller.resetDmControllers();
+        var curve = Curves.easeInOut.transform(a1.value);
+        return StatefulBuilder(
+            builder: (context, setStateSB) => Transform.scale(
+                  scale: curve,
+                  child: AlertDialog(
+                    title: Text(belligerent.name),
+                    content: SizedBox(
+                      height: 200,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: Ink(
+                                    decoration: const ShapeDecoration(
+                                      color: Colors.lightBlue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.horizontal(
+                                          left: Radius.circular(10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.arrow_left),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        setStateSB(() {
+                                          controller.removeHealthFromBelligerent(belligerent);
+                                        });
+                                      },
+                                    ),
+                                  )),
+                              Expanded(
+                                flex: 8,
+                                child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                    child: Stack(
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 50,
+                                          child: LinearProgressIndicator(
+                                            value: controller.getCurrentRatioOfPvByUuid(belligerent.uuid),
+                                            backgroundColor: Colors.grey,
+                                            valueColor: AlwaysStoppedAnimation<Color>(controller.getBelligerentBarColor(belligerent.uuid)),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "${belligerent.currentPv} / ${belligerent.maxPv}",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                foreground: Paint()
+                                                  ..style = PaintingStyle.fill
+                                                  ..strokeWidth = 6
+                                                  ..color = Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              Expanded(
+                                  flex: 2,
+                                  child: Ink(
+                                    decoration: const ShapeDecoration(
+                                      color: Colors.lightBlue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.horizontal(
+                                          right: Radius.circular(10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.arrow_right),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        setStateSB(() {
+                                          controller.addHealthFromBelligerent(belligerent);
+                                        });
+                                      },
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                  child: TextFormField(
+                                    controller: controller.addDamageController,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                    decoration: const InputDecoration(
+                                      labelText: "DM",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                  child: ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                    ),
+                                    icon: const Icon(Icons.heart_broken, color: Colors.red),
+                                    label: const Text('Infliger DM'),
+                                    onPressed: () {
+                                      setStateSB(() {
+                                        controller.inflictDamage(belligerent);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                  child: TextFormField(
+                                    controller: controller.removeDamageController,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                    decoration: const InputDecoration(
+                                      labelText: "Soin",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                  child: ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                    ),
+                                    icon: const Icon(Icons.healing, color: Colors.green),
+                                    label: const Text('Soigner'),
+                                    onPressed: () {
+                                      setStateSB(() {
+                                        controller.healDamage(belligerent);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            "Ok",
+                            style: TextStyle(color: Colors.red, fontSize: 17),
+                          ))
+                    ],
+                  ),
+                ));
+      },
+      transitionDuration: const Duration(milliseconds: 300),
     );
   }
 }
