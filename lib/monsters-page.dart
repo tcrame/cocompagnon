@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cocompagnon/combat-page-controller.dart';
 import 'package:cocompagnon/combat-page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'belligerent.dart';
+import 'about-page.dart';
 import 'monster.dart';
 import 'monsters-page-controller.dart';
 
@@ -17,7 +15,7 @@ class MonstersPage extends StatelessWidget {
   Widget build(BuildContext mainContext) {
     return ChangeNotifierProvider<MonstersPageController>(create: (BuildContext context) {
       var monsterPageController = MonstersPageController();
-      monsterPageController.loadAllCreatures();
+      monsterPageController.loadAllCreaturesLocally();
       return monsterPageController;
     }, builder: (context, child) {
       final controller = context.watch<MonstersPageController>();
@@ -38,7 +36,7 @@ class MonstersPage extends StatelessWidget {
             },
           ),
           backgroundColor: Colors.grey.shade900,
-          title: const Text('Bestiaire - powered by CO-DRS', style: TextStyle(fontSize: 17, color: Colors.white)),
+          title: const Text('Bestiaire by CO-DRS', style: TextStyle(fontSize: 17, color: Colors.white)),
           actions: [
             Builder(builder: (context) {
               return IconButton(
@@ -82,6 +80,15 @@ class MonstersPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MonstersPage()),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text('A propos'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AboutPage()),
                   );
                 },
               ),
@@ -221,7 +228,7 @@ class MonstersPage extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height:30.0),
+                    const SizedBox(height: 30.0),
                     DropdownMenu<MonsterOrderBy>(
                       initialSelection: MonsterOrderBy.alphabetic,
                       controller: controller.orderByController,
@@ -300,8 +307,7 @@ class MonstersPage extends StatelessWidget {
                                                             height: 30,
                                                             width: 30,
                                                             imageUrl: monster.creatureTokenUrl,
-                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                                CircularProgressIndicator(value: downloadProgress.progress),
+                                                            progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
                                                             errorWidget: (context, url, error) => const Icon(Icons.error),
                                                           ),
                                                           Text(

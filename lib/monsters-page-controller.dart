@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cocompagnon/monster.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,6 +14,8 @@ import 'monster-ids.dart';
 
 class MonstersPageController extends ChangeNotifier {
   List<Monster> allMonsters = [];
+
+  //Map<String, dynamic> allMonstersJson = {};
   List<Monster> filteredMonsters = [];
   Set<MonsterType> monsterTypeFilters = {};
   Set<MonsterEnvironment> monsterEnvironmentFilters = {};
@@ -19,6 +23,7 @@ class MonstersPageController extends ChangeNotifier {
   Set<MonsterBossType> monsterBossTypeFilters = {};
   MonsterOrderBy currentOrderBy = MonsterOrderBy.alphabetic;
   TextEditingController orderByController = TextEditingController();
+  TextEditingController bestiaireController = TextEditingController();
   String currentKeyWords = "";
   var uuidGenerator = const Uuid();
 
@@ -31,13 +36,19 @@ class MonstersPageController extends ChangeNotifier {
     } else {}
   }
 
+  Future<void> loadAllCreaturesLocally() async {
+    if (allMonsters.length != monsterIds.length) {
+      allMonsters = [];
+      readFileAsync().whenComplete(() => sortAllMonsterAndNotify());
+    }
+  }
+
   Future<void> loadCreature(dynamic storedCreature, int id) async {
     dynamic creatureJson;
     if (storedCreature == null) {
       try {
-        final dio = Dio(BaseOptions(
-          contentType: 'application/json',
-        ));
+        final dio = Dio(BaseOptions(contentType: 'application/json'));
+
         Response response = await dio.get("https://www.co-drs.org/fr/co/creature/$id/json");
 
         if (response.statusCode == 200) {
@@ -55,9 +66,19 @@ class MonstersPageController extends ChangeNotifier {
     }
     if (creatureJson != null) {
       allMonsters.add(buildMonster(id, creatureJson));
+      //allMonstersJson[id.toString()] =  creatureJson;
     } else {
       print("monster id $id is null");
     }
+  }
+
+  Future<void> readFileAsync() {
+    print('--- READ FILE ASYNC ---');
+    return loadAsset().then((c) => importBestiary(c));
+  }
+
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString('assets/json/bestiary.json');
   }
 
   Future<void> saveMonster(int id, dynamic monsterJson) async {
@@ -140,12 +161,18 @@ class MonstersPageController extends ChangeNotifier {
   sortAllMonsterAndNotify() {
     filteredMonsters = [];
     filteredMonsters.addAll(allMonsters);
+
+    //saveAllJson();
     sortMonsterAndNotify();
   }
 
-  sortMonsterAndNotify() {
+  //Future<void> saveAllJson() async {
+  //  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //  await prefs.setString("allJson", jsonEncode(allMonstersJson));
+  //}
 
-    switch(currentOrderBy) {
+  sortMonsterAndNotify() {
+    switch (currentOrderBy) {
       case MonsterOrderBy.reverseAlphabetic:
         filteredMonsters.sort((a, b) => b.name.compareTo(a.name));
         break;
@@ -234,5 +261,11 @@ class MonstersPageController extends ChangeNotifier {
   void changeSortingDirection(MonsterOrderBy orderBy) {
     currentOrderBy = orderBy;
     sortMonsterAndNotify();
+  }
+
+  void importBestiary(String json) {
+    Map<String, dynamic> bestiary = jsonDecode(json);
+
+    bestiary.forEach((k, v) => loadCreature(v, int.parse(k)));
   }
 }

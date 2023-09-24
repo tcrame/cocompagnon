@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'about-page.dart';
 import 'belligerent.dart';
 
 class CombatPage extends StatelessWidget {
@@ -83,6 +84,15 @@ class CombatPage extends StatelessWidget {
                     );
                   },
                 ),
+                ListTile(
+                  title: const Text('A propos'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AboutPage()),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -132,7 +142,7 @@ class CombatPage extends StatelessWidget {
                                             Expanded(
                                               flex: 9,
                                               child: Padding(
-                                                padding: const EdgeInsets.fromLTRB(7,0,0,0),
+                                                padding: const EdgeInsets.fromLTRB(7, 0, 0, 0),
                                                 child: SingleChildScrollView(
                                                     scrollDirection: Axis.horizontal,
                                                     child: Text(
