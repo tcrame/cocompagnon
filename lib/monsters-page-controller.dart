@@ -115,8 +115,22 @@ class MonstersPageController extends ChangeNotifier {
     int defense = int.parse(getValueFromJson(creatureJson, "defense", "-1")!);
     int initiative = int.parse(getValueFromJson(creatureJson, "init", "-1")!);
     int healthPoint = int.parse(getValueFromJson(creatureJson, "health_point", "-1")!);
+    int strength = int.parse(getValueFromJson(creatureJson, "str_mod", "0")!);
+    int dexterity = int.parse(getValueFromJson(creatureJson, "dex_mod", "0")!);
+    int constitution = int.parse(getValueFromJson(creatureJson, "con_mod", "0")!);
+    int intelligence = int.parse(getValueFromJson(creatureJson, "int_mod", "0")!);
+    int wisdom = int.parse(getValueFromJson(creatureJson, "wis_mod", "0")!);
+    int charisma = int.parse(getValueFromJson(creatureJson, "cha_mod", "0")!);
 
-    return Monster(id, name, creatureTokenUrl, monsterType, monsterEnvironment, ncLevel, defense, initiative, healthPoint, monsterArchetype, monsterBossType);
+     return Monster(id, name, creatureTokenUrl, monsterType, monsterEnvironment, ncLevel, defense, initiative, healthPoint, monsterArchetype, monsterBossType, strength, dexterity, constitution, intelligence, wisdom, charisma);
+  }
+
+  String printCaracMod(int mod) {
+    if(mod > 0) {
+      return '+$mod';
+    } else {
+      return '$mod';
+    }
   }
 
   String? getValueFromJson(dynamic creatureJson, String key, String? defaultValue) {

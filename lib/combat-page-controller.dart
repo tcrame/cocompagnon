@@ -19,6 +19,7 @@ class CombatPageController extends ChangeNotifier {
   BelligerentType? belligerentType = BelligerentType.ally;
   BelligerentDebuffType belligerentDebuffType = BelligerentDebuffType.blind;
   int turn = 1;
+  bool isInitiativeOptionalRuleActivated = true;
 
   List<Belligerent> belligerents = <Belligerent>[];
 
@@ -77,7 +78,7 @@ class CombatPageController extends ChangeNotifier {
 
   rollInitiatives() {
     for (var beligerent in belligerents) {
-      beligerent.recalculateInitiative();
+      beligerent.recalculateInitiative(isInitiativeOptionalRuleActivated);
       beligerent.recalculateDebuffs();
       saveBelligerent(beligerent);
     }
@@ -243,7 +244,7 @@ class CombatPageController extends ChangeNotifier {
     var damages = addDamageController.text != "" ? int.parse(addDamageController.text) : 0;
     belligerent.currentPv = belligerent.currentPv - damages;
 
-    if(belligerent.currentPv < 0) {
+    if (belligerent.currentPv < 0) {
       belligerent.currentPv = 0;
     }
     notifyListeners();
@@ -253,9 +254,26 @@ class CombatPageController extends ChangeNotifier {
     var healthToHeal = removeDamageController.text != "" ? int.parse(removeDamageController.text) : 0;
     belligerent.currentPv = belligerent.currentPv + healthToHeal;
 
-    if(belligerent.currentPv > belligerent.maxPv) {
+    if (belligerent.currentPv > belligerent.maxPv) {
       belligerent.currentPv = belligerent.maxPv;
     }
     notifyListeners();
+  }
+
+  void toggleInitiativeOptionalRule(bool state) {
+    isInitiativeOptionalRuleActivated = !state;
+    saveInitiativeOptionalRuleState(state);
+    notifyListeners();
+  }
+
+  Future<void> saveInitiativeOptionalRuleState(bool state) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("initiativeOptionalRuleState", state);
+  }
+
+  Future<void> restoreInitiativeOptionalRuleState() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? state = prefs.getBool("initiativeOptionalRuleState");
+    isInitiativeOptionalRuleActivated = state ?? true;
   }
 }

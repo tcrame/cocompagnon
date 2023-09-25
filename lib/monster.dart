@@ -10,12 +10,19 @@ class Monster {
   int defense;
   int initiative;
   int healthPoint;
+  int strength = 0;
+  int dexterity = 0;
+  int constitution = 0;
+  int intelligence = 0;
+  int wisdom = 0;
+  int charisma = 0;
 
   String getFormatedNcLevel() {
     return "$ncLevel".replaceAll(".0", "");
   }
 
-  Monster(this.id, this.name, this.creatureTokenUrl, this.type, this.environment, this.ncLevel, this.defense, this.initiative, this.healthPoint, this.archetype, this.bossType);
+  Monster(this.id, this.name, this.creatureTokenUrl, this.type, this.environment, this.ncLevel, this.defense, this.initiative, this.healthPoint, this.archetype, this.bossType, this.strength,
+      this.dexterity, this.constitution, this.intelligence, this.wisdom, this.charisma);
 }
 
 enum MonsterType {
@@ -93,5 +100,4 @@ enum MonsterOrderBy {
 
   final String label;
   final int code;
-
 }

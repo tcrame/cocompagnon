@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cocompagnon/combat-page.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttericon/rpg_awesome_icons.dart';
 
 import 'about-page.dart';
 import 'monster.dart';
@@ -290,7 +293,7 @@ class MonstersPage extends StatelessWidget {
                                           ),
                                           borderRadius: BorderRadius.all(Radius.circular(5)),
                                         ),
-                                        height: 80,
+                                        height: 107,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -301,7 +304,7 @@ class MonstersPage extends StatelessWidget {
                                                       child: Container(
                                                           child: Column(children: [
                                                     Container(
-                                                        padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                                                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 1),
                                                         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
                                                           CachedNetworkImage(
                                                             height: 30,
@@ -362,7 +365,78 @@ class MonstersPage extends StatelessWidget {
                                                             ),
                                                           ),
                                                           Text(
-                                                            ' NC : ${monster.getFormatedNcLevel()}',
+                                                            ' NC : ${monster.getFormatedNcLevel()} ',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          )
+                                                        ])),
+                                                    Container(
+                                                        padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                                                        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                                                          const Icon(
+                                                            RpgAwesome.muscle_up,
+                                                            color: Colors.red,
+                                                          ),
+                                                          Text(
+                                                            '${controller.printCaracMod(monster.strength)} ',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            RpgAwesome.feather_wing,
+                                                            color: Colors.white,
+                                                          ),
+                                                          Text(
+                                                            '${controller.printCaracMod(monster.dexterity)} ',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            RpgAwesome.vest,
+                                                            color: Colors.blueGrey,
+                                                          ),
+                                                          Text(
+                                                            '${controller.printCaracMod(monster.constitution)} ',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            size: 20,
+                                                            FontAwesome5.brain,
+                                                            color: Colors.pinkAccent,
+                                                          ),
+                                                          Text(
+                                                            ' ${controller.printCaracMod(monster.intelligence)} ',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            FontAwesome5.eye,
+                                                            color: Colors.blueGrey,
+                                                          ),
+                                                          Text(
+                                                            ' ${controller.printCaracMod(monster.wisdom)} ',
+                                                            style: GoogleFonts.kalam(
+                                                              color: Colors.black,
+                                                              fontSize: 16,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            RpgAwesome.speech_bubbles,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          Text(
+                                                            controller.printCaracMod(monster.charisma),
                                                             style: GoogleFonts.kalam(
                                                               color: Colors.black,
                                                               fontSize: 16,

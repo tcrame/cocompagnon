@@ -16,7 +16,16 @@ class Belligerent {
   int currentPv;
   List<BelligerentDebuff> debuffs = <BelligerentDebuff>[];
 
-  Belligerent({required this.name, required this.defense, required this.initiative, required this.currentPv, required this.maxPv, this.belligerentType, required this.currentInitiative, required this.uuid, required this.debuffs});
+  Belligerent(
+      {required this.name,
+      required this.defense,
+      required this.initiative,
+      required this.currentPv,
+      required this.maxPv,
+      this.belligerentType,
+      required this.currentInitiative,
+      required this.uuid,
+      required this.debuffs});
 
   double getRatioOfPv() {
     return currentPv / maxPv;
@@ -33,8 +42,12 @@ class Belligerent {
     }
   }
 
-  recalculateInitiative() {
-    currentInitiative = initiative + Random().nextInt(6) + 1;
+  recalculateInitiative(bool isInitiativeOptionalRuleActivated) {
+    if (isInitiativeOptionalRuleActivated) {
+      currentInitiative = initiative + Random().nextInt(6) + 1;
+    } else {
+      currentInitiative = initiative;
+    }
   }
 
   void recalculateDebuffs() {
@@ -73,7 +86,7 @@ Map<String, dynamic> _$BelligerentToJson(Belligerent instance) => <String, dynam
       'maxPv': instance.maxPv,
       'currentPv': instance.currentPv,
       'belligerentType': instance.belligerentType?.code,
-      'debuffs' : instance.debuffs.map((e) => e.toJson()).toList()
+      'debuffs': instance.debuffs.map((e) => e.toJson()).toList()
     };
 
 @JsonSerializable()
@@ -93,22 +106,24 @@ class BelligerentDebuff {
 }
 
 BelligerentDebuff _$BelligerentDebuffFromJson(Map<String, dynamic> json) => BelligerentDebuff(
-  type: BelligerentDebuffType.fromCode((json['type'] as int)),
-  description: json['description'] as String,
-  durationInTurn: json['durationInTurn'] as int,
-);
+      type: BelligerentDebuffType.fromCode((json['type'] as int)),
+      description: json['description'] as String,
+      durationInTurn: json['durationInTurn'] as int,
+    );
 
 Map<String, dynamic> _$BelligerentDebuffToJson(BelligerentDebuff instance) => <String, dynamic>{
-  'type': instance.type?.code,
-  'description': instance.description,
-  'durationInTurn': instance.durationInTurn,
-};
+      'type': instance.type?.code,
+      'description': instance.description,
+      'durationInTurn': instance.durationInTurn,
+    };
 
 @JsonEnum(valueField: 'code')
 enum BelligerentType {
   ally(1),
   enemy(2);
+
   const BelligerentType(this.code);
+
   final int code;
 
   static BelligerentType fromCode(int code) {

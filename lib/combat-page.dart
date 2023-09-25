@@ -18,37 +18,47 @@ class CombatPage extends StatelessWidget {
         var mainPageController = CombatPageController();
         mainPageController.restoreBelligerents();
         mainPageController.restoreCurrentTurn();
+        mainPageController.restoreInitiativeOptionalRuleState();
         return mainPageController;
       },
       builder: (context, child) {
         final controller = context.watch<CombatPageController>();
         return Scaffold(
           appBar: AppBar(
-              leading: Builder(
-                builder: (BuildContext context) {
-                  return IconButton(
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.white, // Change Custom Drawer Icon Color
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                );
+              },
+            ),
+            backgroundColor: Colors.grey.shade900,
+            title: SingleChildScrollView(scrollDirection: Axis.horizontal, child: Text("Tracker de combat - Tour ${controller.turn}", style: const TextStyle(fontSize: 16, color: Colors.white))),
+            actions: [
+              Builder(builder: (context) {
+                return IconButton(
+                  icon: const Icon(Icons.restart_alt),
+                  onPressed: () => controller.resetTurns(),
+                  color: Colors.white,
+                );
+              }),
+              Builder(builder: (context) {
+                return IconButton(
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
                     icon: const Icon(
-                      Icons.menu,
-                      color: Colors.white, // Change Custom Drawer Icon Color
-                    ),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                  );
-                },
-              ),
-              backgroundColor: Colors.grey.shade900,
-              title: Row(children: <Widget>[
-                Expanded(flex: 8, child: Text("Tracker de combat - Tour ${controller.turn}", style: const TextStyle(fontSize: 17, color: Colors.white))),
-                Expanded(
-                    flex: 2,
-                    child: IconButton(
-                      icon: const Icon(Icons.restart_alt),
-                      onPressed: () => controller.resetTurns(),
+                      Icons.settings,
                       color: Colors.white,
-                    )),
-              ])),
+                    ));
+              }),
+            ],
+          ),
           drawer: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -93,6 +103,42 @@ class CombatPage extends StatelessWidget {
                     );
                   },
                 ),
+              ],
+            ),
+          ),
+          endDrawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                SizedBox(
+                  height: 130,
+                  child: DrawerHeader(
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Text('Options',
+                        style: GoogleFonts.kalam(
+                          color: Colors.white,
+                          fontSize: 40,
+                        )),
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Règle optionnelle d'initiative"),
+                      const SizedBox(height: 5.0),
+                      Switch(
+                        value: controller.isInitiativeOptionalRuleActivated,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          controller.toggleInitiativeOptionalRule(controller.isInitiativeOptionalRuleActivated);
+                        },
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
