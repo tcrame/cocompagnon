@@ -14,6 +14,7 @@ import 'monster-ids.dart';
 
 class MonstersPageController extends ChangeNotifier {
   List<Monster> allMonsters = [];
+  Map<String, dynamic> allMonstersJson = {};
 
   //Map<String, dynamic> allMonstersJson = {};
   List<Monster> filteredMonsters = [];
@@ -66,7 +67,7 @@ class MonstersPageController extends ChangeNotifier {
     }
     if (creatureJson != null) {
       allMonsters.add(buildMonster(id, creatureJson));
-      //allMonstersJson[id.toString()] =  creatureJson;
+      allMonstersJson[id.toString()] =  creatureJson;
     } else {
       print("monster id $id is null");
     }
@@ -122,7 +123,9 @@ class MonstersPageController extends ChangeNotifier {
     int wisdom = int.parse(getValueFromJson(creatureJson, "wis_mod", "0")!);
     int charisma = int.parse(getValueFromJson(creatureJson, "cha_mod", "0")!);
 
-     return Monster(id, name, creatureTokenUrl, monsterType, monsterEnvironment, ncLevel, defense, initiative, healthPoint, monsterArchetype, monsterBossType, strength, dexterity, constitution, intelligence, wisdom, charisma);
+    Map<String, bool> supperiorAbilities = getSuperiorAbilities(creatureJson);
+
+     return Monster(id, name, creatureTokenUrl, monsterType, monsterEnvironment, ncLevel, defense, initiative, healthPoint, monsterArchetype, monsterBossType, strength, dexterity, constitution, intelligence, wisdom, charisma, supperiorAbilities);
   }
 
   String printCaracMod(int mod) {
@@ -281,5 +284,24 @@ class MonstersPageController extends ChangeNotifier {
     Map<String, dynamic> bestiary = jsonDecode(json);
 
     bestiary.forEach((k, v) => loadCreature(v, int.parse(k)));
+  }
+
+  String showSuperiorAbility(String capabilityCode, Monster monster) {
+    bool? superiorAbility = monster.superiorAbilities[capabilityCode];
+    return superiorAbility != null && superiorAbility == true ? "*" : "";
+  }
+
+  Map<String, bool> getSuperiorAbilities(storedCreature) {
+    List<dynamic> supAbilitiesJson = storedCreature['sup_abilities'];
+
+    Map<String, bool> supAbilities = {};
+    supAbilities["str"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "str" ).isNotEmpty;
+    supAbilities["dex"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "dex").isNotEmpty;
+    supAbilities["con"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "con").isNotEmpty;
+    supAbilities["int"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "int").isNotEmpty;
+    supAbilities["wis"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "wis").isNotEmpty;
+    supAbilities["cha"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "cha").isNotEmpty;
+
+    return supAbilities;
   }
 }

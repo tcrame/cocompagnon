@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cocompagnon/combat-page.dart';
+import 'package:cocompagnon/monsters-details-page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttericon/rpg_awesome_icons.dart';
 
 import 'about-page.dart';
 import 'monster.dart';
@@ -380,10 +380,10 @@ class MonstersPage extends StatelessWidget {
                                                             color: Colors.red,
                                                           ),
                                                           Text(
-                                                            '${controller.printCaracMod(monster.strength)} ',
+                                                            '${controller.printCaracMod(monster.strength)}${controller.showSuperiorAbility("str", monster)} ',
                                                             style: GoogleFonts.kalam(
                                                               color: Colors.black,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                             ),
                                                           ),
                                                           const Icon(
@@ -391,10 +391,10 @@ class MonstersPage extends StatelessWidget {
                                                             color: Colors.white,
                                                           ),
                                                           Text(
-                                                            '${controller.printCaracMod(monster.dexterity)} ',
+                                                            '${controller.printCaracMod(monster.dexterity)}${controller.showSuperiorAbility("dex", monster)} ',
                                                             style: GoogleFonts.kalam(
                                                               color: Colors.black,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                             ),
                                                           ),
                                                           const Icon(
@@ -402,10 +402,10 @@ class MonstersPage extends StatelessWidget {
                                                             color: Colors.blueGrey,
                                                           ),
                                                           Text(
-                                                            '${controller.printCaracMod(monster.constitution)} ',
+                                                            '${controller.printCaracMod(monster.constitution)}${controller.showSuperiorAbility("con", monster)} ',
                                                             style: GoogleFonts.kalam(
                                                               color: Colors.black,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                             ),
                                                           ),
                                                           const Icon(
@@ -414,10 +414,10 @@ class MonstersPage extends StatelessWidget {
                                                             color: Colors.pinkAccent,
                                                           ),
                                                           Text(
-                                                            ' ${controller.printCaracMod(monster.intelligence)} ',
+                                                            ' ${controller.printCaracMod(monster.intelligence)}${controller.showSuperiorAbility("int", monster)} ',
                                                             style: GoogleFonts.kalam(
                                                               color: Colors.black,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                             ),
                                                           ),
                                                           const Icon(
@@ -425,10 +425,10 @@ class MonstersPage extends StatelessWidget {
                                                             color: Colors.blueGrey,
                                                           ),
                                                           Text(
-                                                            ' ${controller.printCaracMod(monster.wisdom)} ',
+                                                            ' ${controller.printCaracMod(monster.wisdom)}${controller.showSuperiorAbility("wis", monster)} ',
                                                             style: GoogleFonts.kalam(
                                                               color: Colors.black,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                             ),
                                                           ),
                                                           const Icon(
@@ -436,10 +436,10 @@ class MonstersPage extends StatelessWidget {
                                                             color: Colors.grey,
                                                           ),
                                                           Text(
-                                                            controller.printCaracMod(monster.charisma),
+                                                            '${controller.printCaracMod(monster.charisma)}${controller.showSuperiorAbility("cha", monster)}',
                                                             style: GoogleFonts.kalam(
                                                               color: Colors.black,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                             ),
                                                           ),
                                                         ])),
@@ -457,6 +457,18 @@ class MonstersPage extends StatelessWidget {
                                                         onPressed: () {
                                                           controller.addMonsterInTracker(monster);
                                                           Navigator.pop(context);
+                                                        },
+                                                      )),
+                                                  PopupMenuItem(
+                                                      value: 2,
+                                                      child: ElevatedButton.icon(
+                                                        icon: const Icon(Icons.zoom_in),
+                                                        label: const Text('Voir détails'),
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(builder: (context) => MonstersDetailPage(monster: monster, monsterJson: controller.allMonstersJson[monster.id.toString()])),
+                                                          );
                                                         },
                                                       )),
                                                 ],
