@@ -10,7 +10,7 @@ class MonsterDetails {
   int bossRank;
   MonsterFamilly monsterFamilly;
 
-  List<MonsterAttack> attacks;
+  List<MonsterAttack?> attacks;
   List<String?> paths;
   List<MonsterCapability?> capabilities;
   List<String?> specialCapabilities;

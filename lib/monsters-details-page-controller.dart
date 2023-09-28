@@ -40,9 +40,9 @@ class MonstersPageDetailsController extends ChangeNotifier {
       String category = getValueFromJsonWithSubKey(storedCreature, "category", "label", "");
       String environment = getValueFromJsonWithSubKey(storedCreature, "environment", "label", "");
       String archetype = getValueFromJsonWithSubKey(storedCreature, "archetype", "label", "");
-      int bossRank = int.parse(getValueFromJsonWithArray(storedCreature, "boss_rank", "value", "0"));
+      int bossRank = int.parse(getValueFromJsonWithArray(storedCreature, "boss_rank", "value", "0").replaceAll(".5", ""));
 
-      List<MonsterAttack> attacks = getAttacks(storedCreature);
+      List<MonsterAttack?> attacks = getAttacks(storedCreature);
       List<String?> paths = getPaths(storedCreature);
       List<MonsterCapability?> capabilities = getCapabilities(storedCreature);
       List<String?> specialCapabilities = getSpecialCapabilities(storedCreature);
@@ -82,21 +82,25 @@ class MonstersPageDetailsController extends ChangeNotifier {
     return firstCategory != null && firstCategory[subKey] != null ? firstCategory[subKey] : defaultValue;
   }
 
-  List<MonsterAttack> getAttacks(creatureJson) {
+  List<MonsterAttack?> getAttacks(creatureJson) {
     List<dynamic> attacksJson = creatureJson['attacks'];
     return attacksJson.map((attackJson) => mapMonsterAttack(attackJson)).toList();
   }
 
-  MonsterAttack mapMonsterAttack(attackJson) {
+  MonsterAttack? mapMonsterAttack(attackJson) {
     String? label = attackJson["value"];
     List<dynamic> dataList = attackJson["data"];
     dynamic firstData = dataList.isNotEmpty ? dataList[0] : null;
-    String? name = firstData["name"];
-    String? test = firstData["test"];
-    String? dm = firstData["dm"];
-    String? special = firstData["special"];
-    String? reach = firstData["reach"];
-    return MonsterAttack(label, name, test, dm, special, reach);
+    if(firstData != null) {
+      String? name = firstData["name"];
+      String? test = firstData["test"];
+      String? dm = firstData["dm"];
+      String? special = firstData["special"];
+      String? reach = firstData["reach"];
+      return MonsterAttack(label, name, test, dm, special, reach);
+    } else {
+      return null;
+    }
   }
 
   List<String?> getPaths(creatureJson) {
@@ -133,6 +137,10 @@ class MonstersPageDetailsController extends ChangeNotifier {
 
   bool hasCapacities() {
     return monsterDetails != null && monsterDetails!.capabilities.where((element) => element != null).isNotEmpty;
+  }
+
+  bool hasAttacks() {
+    return monsterDetails != null && monsterDetails!.attacks.where((element) => element != null).isNotEmpty;
   }
 
   List<String?> getSpecialCapabilities(creatureJson) {

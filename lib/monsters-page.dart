@@ -311,7 +311,11 @@ class MonstersPage extends StatelessWidget {
                                                             width: 30,
                                                             imageUrl: monster.creatureTokenUrl,
                                                             progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
-                                                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                            errorWidget: (context, url, error) => Image.network(
+                                                              monster.creatureTokenUrl,
+                                                              height: 30,
+                                                              width: 30,
+                                                            ),
                                                           ),
                                                           Text(
                                                             monster.name,
@@ -467,7 +471,8 @@ class MonstersPage extends StatelessWidget {
                                                         onPressed: () {
                                                           Navigator.push(
                                                             context,
-                                                            MaterialPageRoute(builder: (context) => MonstersDetailPage(monster: monster, monsterJson: controller.allMonstersJson[monster.id.toString()])),
+                                                            MaterialPageRoute(
+                                                                builder: (context) => MonstersDetailPage(monster: monster, monsterJson: controller.allMonstersJson[monster.id.toString()])),
                                                           );
                                                         },
                                                       )),

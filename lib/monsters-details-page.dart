@@ -122,7 +122,9 @@ class MonstersDetailPage extends StatelessWidget {
                                       child: CachedNetworkImage(
                                         imageUrl: controller.monsterDetails!.urlImage,
                                         progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
-                                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                                        errorWidget: (context, url, error) => Image.network(
+                                          controller.monsterDetails!.urlImage,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 10.0),
@@ -338,7 +340,7 @@ class MonstersDetailPage extends StatelessWidget {
                                             Expanded(
                                               child: Center(
                                                 child: SizedBox(
-                                                  width: 75,
+                                                  width: 80,
                                                   child: Row(
                                                     children: [
                                                       const Text(
@@ -526,19 +528,25 @@ class MonstersDetailPage extends StatelessWidget {
                                         )
                                       ]),
                                     ),
-                                    const SizedBox(height: 10.0),
-                                    const Text(
-                                      'Attaque(s)',
-                                      style: TextStyle(fontSize: 25, color: Colors.black),
-                                      textAlign: TextAlign.left,
+                                    Visibility(visible: controller.hasAttacks(), child: const SizedBox(height: 10.0)),
+                                    Visibility(
+                                      visible: controller.hasAttacks(),
+                                      child: const Text(
+                                        'Attaque(s)',
+                                        style: TextStyle(fontSize: 25, color: Colors.black),
+                                        textAlign: TextAlign.left,
+                                      ),
                                     ),
-                                    const SizedBox(height: 10.0),
-                                    Container(
-                                      color: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
-                                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                      child: Column(children: controller.monsterDetails!.attacks.map((attack) => Html(data: attack.label)).toList()),
+                                    Visibility(visible: controller.hasAttacks(), child: const SizedBox(height: 10.0)),
+                                    Visibility(
+                                      visible: controller.hasAttacks(),
+                                      child: Container(
+                                        color: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                        child: Column(children: controller.monsterDetails!.attacks.map((attack) => Html(data: attack != null ? attack!.label : "")).toList()),
+                                      ),
                                     ),
-                                    const SizedBox(height: 10.0),
+                                    Visibility(visible: controller.hasAttacks(), child: const SizedBox(height: 10.0)),
                                     Visibility(
                                         visible: controller.hasSpecialCapabalities(),
                                         child: const Text(
