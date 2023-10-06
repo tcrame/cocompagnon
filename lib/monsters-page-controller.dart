@@ -1,22 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-
 import 'package:cocompagnon/monster.dart';
-import 'package:dio/dio.dart';
+import 'package:cocompagnon/shared-preferences-utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'belligerent.dart';
 import 'monster-ids.dart';
+import 'monsters-details-page.dart';
 
 class MonstersPageController extends ChangeNotifier {
-  List<Monster> allMonsters = [];
-  Map<String, dynamic> allMonstersJson = {};
-
-  //Map<String, dynamic> allMonstersJson = {};
   List<Monster> filteredMonsters = [];
   Set<MonsterType> monsterTypeFilters = {};
   Set<MonsterEnvironment> monsterEnvironmentFilters = {};
@@ -28,118 +19,52 @@ class MonstersPageController extends ChangeNotifier {
   String currentKeyWords = "";
   var uuidGenerator = const Uuid();
 
+  Future<void> loadAllCreaturesLocally() async {
+    if (SharedPreferencesUtils.allMonsters.length != monsterIds.length) {
+      SharedPreferencesUtils.allMonsters = [];
+      SharedPreferencesUtils.readFileAsync().whenComplete(() => sortAllMonsterAndNotify());
+    }
+  }
+
   Future<void> loadAllCreatures() async {
-    if (allMonsters.length != monsterIds.length) {
-      allMonsters = [];
+    if (SharedPreferencesUtils.allMonsters.length != monsterIds.length) {
+      SharedPreferencesUtils.allMonsters = [];
       for (var id in monsterIds) {
-        restoreMonster(id).then((value) => loadCreature(value, id)).whenComplete(() => sortAllMonsterAndNotify());
+        SharedPreferencesUtils.restoreMonster(id).then((value) => SharedPreferencesUtils.loadCreature(value, id)).whenComplete(() => sortAllMonsterAndNotify());
       }
     } else {}
   }
 
-  Future<void> loadAllCreaturesLocally() async {
-    if (allMonsters.length != monsterIds.length) {
-      allMonsters = [];
-      readFileAsync().whenComplete(() => sortAllMonsterAndNotify());
+  sortAllMonsterAndNotify() {
+    filteredMonsters = [];
+    filteredMonsters.addAll(SharedPreferencesUtils.allMonsters);
+
+    sortMonsterAndNotify();
+  }
+
+  sortMonsterAndNotify() {
+    switch (currentOrderBy) {
+      case MonsterOrderBy.reverseAlphabetic:
+        filteredMonsters.sort((a, b) => b.name.compareTo(a.name));
+        break;
+      case MonsterOrderBy.minNC:
+        filteredMonsters.sort((a, b) => b.ncLevel.compareTo(a.ncLevel));
+        break;
+      case MonsterOrderBy.maxNc:
+        filteredMonsters.sort((a, b) => a.ncLevel.compareTo(b.ncLevel));
+        break;
+      default:
+        filteredMonsters.sort((a, b) => a.name.compareTo(b.name));
     }
-  }
-
-  Future<void> loadCreature(dynamic storedCreature, int id) async {
-    dynamic creatureJson;
-    if (storedCreature == null) {
-      try {
-        final dio = Dio(BaseOptions(contentType: 'application/json'));
-
-        Response response = await dio.get("https://www.co-drs.org/fr/co/creature/$id/json");
-
-        if (response.statusCode == 200) {
-          Map<String, dynamic> responseBody = response.data;
-          List<dynamic> names = responseBody["name"];
-          String name = names[0]["value"];
-          if (!name.contains("Cloned")) {
-            creatureJson = responseBody;
-            saveMonster(id, responseBody);
-          }
-        }
-      } on DioException catch (e) {}
-    } else {
-      creatureJson = storedCreature;
-    }
-    if (creatureJson != null) {
-      allMonsters.add(buildMonster(id, creatureJson));
-      allMonstersJson[id.toString()] =  creatureJson;
-    } else {
-      print("monster id $id is null");
-    }
-  }
-
-  Future<void> readFileAsync() {
-    print('--- READ FILE ASYNC ---');
-    return loadAsset().then((c) => importBestiary(c));
-  }
-
-  Future<String> loadAsset() async {
-    return await rootBundle.loadString('assets/json/bestiary.json');
-  }
-
-  Future<void> saveMonster(int id, dynamic monsterJson) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("save monster id in shared prefs $id");
-    await prefs.setString("monster$id", jsonEncode(monsterJson));
-  }
-
-  Future<dynamic> restoreMonster(int id) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? string = prefs.getString("monster$id");
-    if (string != null) {
-      return json.decode(string.toString());
-    } else {
-      return null;
-    }
-  }
-
-  Monster buildMonster(int id, dynamic creatureJson) {
-    List<dynamic> names = creatureJson["name"];
-    String name = names[0]["value"];
-
-    List<dynamic> pictures = creatureJson["picture"];
-    dynamic firstPicture = pictures.isNotEmpty ? pictures[0] : null;
-    String creatureTokenUrl = firstPicture != null
-        ? firstPicture["creature_token_url"]
-        : "https://www.co-drs.org/sites/default/files/styles/creatures_token/public/co/creature/2023-04/Sosie%20d%C3%A9moniaque.jpg.webp?itok=XNvMJvSR";
-
-    MonsterType monsterType = MonsterType.fromName(getValueFromJson(creatureJson, "category", null));
-    MonsterEnvironment monsterEnvironment = MonsterEnvironment.fromName(getValueFromJson(creatureJson, "environment", null));
-    MonsterArchetype monsterArchetype = MonsterArchetype.fromName(getValueFromJson(creatureJson, "archetype", null));
-    MonsterBossType monsterBossType = MonsterBossType.fromName(getValueFromJson(creatureJson, "boss_type", null));
-    double ncLevel = double.parse(getValueFromJson(creatureJson, "level", "-1")!);
-    int defense = int.parse(getValueFromJson(creatureJson, "defense", "-1")!);
-    int initiative = int.parse(getValueFromJson(creatureJson, "init", "-1")!);
-    int healthPoint = int.parse(getValueFromJson(creatureJson, "health_point", "-1")!);
-    int strength = int.parse(getValueFromJson(creatureJson, "str_mod", "0")!);
-    int dexterity = int.parse(getValueFromJson(creatureJson, "dex_mod", "0")!);
-    int constitution = int.parse(getValueFromJson(creatureJson, "con_mod", "0")!);
-    int intelligence = int.parse(getValueFromJson(creatureJson, "int_mod", "0")!);
-    int wisdom = int.parse(getValueFromJson(creatureJson, "wis_mod", "0")!);
-    int charisma = int.parse(getValueFromJson(creatureJson, "cha_mod", "0")!);
-
-    Map<String, bool> supperiorAbilities = getSuperiorAbilities(creatureJson);
-
-     return Monster(id, name, creatureTokenUrl, monsterType, monsterEnvironment, ncLevel, defense, initiative, healthPoint, monsterArchetype, monsterBossType, strength, dexterity, constitution, intelligence, wisdom, charisma, supperiorAbilities);
+    notifyListeners();
   }
 
   String printCaracMod(int mod) {
-    if(mod > 0) {
+    if (mod > 0) {
       return '+$mod';
     } else {
       return '$mod';
     }
-  }
-
-  String? getValueFromJson(dynamic creatureJson, String key, String? defaultValue) {
-    List<dynamic> categories = creatureJson[key];
-    dynamic firstCategory = categories.isNotEmpty ? categories[0] : null;
-    return firstCategory != null ? firstCategory["value"] : defaultValue;
   }
 
   runFilter(String enteredKeyword) {
@@ -150,9 +75,9 @@ class MonstersPageController extends ChangeNotifier {
   void applyFilters() {
     List<Monster> results = [];
     if (currentKeyWords.isEmpty) {
-      results = allMonsters;
+      results = SharedPreferencesUtils.allMonsters;
     } else {
-      results = allMonsters.where((monster) => monster.name.toLowerCase().contains(currentKeyWords.toLowerCase())).toList();
+      results = SharedPreferencesUtils.allMonsters.where((monster) => monster.name.toLowerCase().contains(currentKeyWords.toLowerCase())).toList();
     }
 
     if (monsterTypeFilters.isNotEmpty) {
@@ -173,36 +98,6 @@ class MonstersPageController extends ChangeNotifier {
 
     filteredMonsters = results;
     sortMonsterAndNotify();
-  }
-
-  sortAllMonsterAndNotify() {
-    filteredMonsters = [];
-    filteredMonsters.addAll(allMonsters);
-
-    //saveAllJson();
-    sortMonsterAndNotify();
-  }
-
-  //Future<void> saveAllJson() async {
-  //  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //  await prefs.setString("allJson", jsonEncode(allMonstersJson));
-  //}
-
-  sortMonsterAndNotify() {
-    switch (currentOrderBy) {
-      case MonsterOrderBy.reverseAlphabetic:
-        filteredMonsters.sort((a, b) => b.name.compareTo(a.name));
-        break;
-      case MonsterOrderBy.minNC:
-        filteredMonsters.sort((a, b) => b.ncLevel.compareTo(a.ncLevel));
-        break;
-      case MonsterOrderBy.maxNc:
-        filteredMonsters.sort((a, b) => a.ncLevel.compareTo(b.ncLevel));
-        break;
-      default:
-        filteredMonsters.sort((a, b) => a.name.compareTo(b.name));
-    }
-    notifyListeners();
   }
 
   void removeOrAddMonsterTypeFilterSelection(bool selected, MonsterType monsterType) {
@@ -242,37 +137,38 @@ class MonstersPageController extends ChangeNotifier {
   }
 
   void addMonsterInTracker(Monster monster) {
-    addBelligerent(monster.name, monster.defense, monster.initiative, monster.healthPoint, monster.healthPoint, BelligerentType.enemy);
+    addBelligerent(monster);
   }
 
-  addBelligerent(String name, int defense, int initiative, int currentPv, int maxPv, BelligerentType? belligerentType) {
-    int currentInit = initiative + Random().nextInt(6) + 1;
+  addBelligerent(Monster monster) {
+    int currentInit = monster.initiative;
     String uuid = uuidGenerator.v1();
+    print(monster.superiorAbilities);
     var newBelligerent = Belligerent(
-        name: name,
-        defense: defense,
-        initiative: initiative,
-        currentPv: currentPv,
-        maxPv: maxPv,
-        belligerentType: belligerentType,
+        name: monster.name,
+        defense: monster.defense,
+        initiative: monster.initiative,
+        currentPv: monster.healthPoint,
+        maxPv: monster.healthPoint,
+        belligerentType: BelligerentType.enemy,
         currentInitiative: currentInit,
         uuid: uuid,
-        debuffs: <BelligerentDebuff>[]);
-    saveBelligerent(newBelligerent);
-    addInBelligerentIds(uuid);
+        debuffs: <BelligerentDebuff>[],
+        monsterId: monster.id,
+        strength: calculateFlatCarac(monster.strength),
+        dexterity: calculateFlatCarac(monster.dexterity),
+        constitution: calculateFlatCarac(monster.constitution),
+        intelligence: calculateFlatCarac(monster.intelligence),
+        wisdom: calculateFlatCarac(monster.wisdom),
+        charisma: calculateFlatCarac(monster.charisma),
+        superiorAbilities: monster.superiorAbilities,
+        tokenUrl: monster.creatureTokenUrl);
+    SharedPreferencesUtils.saveBelligerent(newBelligerent);
+    SharedPreferencesUtils.addInBelligerentIds(uuid);
   }
 
-  Future<void> saveBelligerent(Belligerent belligerent) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(belligerent.uuid, jsonEncode(belligerent.toJson()));
-  }
-
-  Future<void> addInBelligerentIds(String newUuid) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? ids = prefs.getStringList("belligerentIds");
-    ids ??= [];
-    ids.add(newUuid);
-    await prefs.setStringList("belligerentIds", ids);
+  int calculateFlatCarac(int caracModifier) {
+    return 10 + (caracModifier * 2);
   }
 
   void changeSortingDirection(MonsterOrderBy orderBy) {
@@ -280,28 +176,20 @@ class MonstersPageController extends ChangeNotifier {
     sortMonsterAndNotify();
   }
 
-  void importBestiary(String json) {
-    Map<String, dynamic> bestiary = jsonDecode(json);
-
-    bestiary.forEach((k, v) => loadCreature(v, int.parse(k)));
-  }
-
   String showSuperiorAbility(String capabilityCode, Monster monster) {
     bool? superiorAbility = monster.superiorAbilities[capabilityCode];
     return superiorAbility != null && superiorAbility == true ? "*" : "";
   }
 
-  Map<String, bool> getSuperiorAbilities(storedCreature) {
-    List<dynamic> supAbilitiesJson = storedCreature['sup_abilities'];
-
-    Map<String, bool> supAbilities = {};
-    supAbilities["str"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "str" ).isNotEmpty;
-    supAbilities["dex"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "dex").isNotEmpty;
-    supAbilities["con"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "con").isNotEmpty;
-    supAbilities["int"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "int").isNotEmpty;
-    supAbilities["wis"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "wis").isNotEmpty;
-    supAbilities["cha"] = supAbilitiesJson.where((element) => element["value"] != null && element["value"] == "cha").isNotEmpty;
-
-    return supAbilities;
+  void navigateToDetailsPage(context, int? monsterId) {
+    if (monsterId != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          var monstersJson = SharedPreferencesUtils.allMonstersJson[monsterId.toString()];
+          return MonstersDetailPage(monster: SharedPreferencesUtils.buildMonster(monsterId!, monstersJson));
+        }),
+      );
+    }
   }
 }

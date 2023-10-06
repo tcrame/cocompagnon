@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cocompagnon/combat-page.dart';
-import 'package:cocompagnon/monsters-details-page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
@@ -311,11 +310,7 @@ class MonstersPage extends StatelessWidget {
                                                             width: 30,
                                                             imageUrl: monster.creatureTokenUrl,
                                                             progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
-                                                            errorWidget: (context, url, error) => Image.network(
-                                                              monster.creatureTokenUrl,
-                                                              height: 30,
-                                                              width: 30,
-                                                            ),
+                                                            errorWidget: (context, url, error) => const Icon(Icons.error),
                                                           ),
                                                           Text(
                                                             monster.name,
@@ -469,11 +464,7 @@ class MonstersPage extends StatelessWidget {
                                                         icon: const Icon(Icons.zoom_in),
                                                         label: const Text('Voir détails'),
                                                         onPressed: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) => MonstersDetailPage(monster: monster, monsterJson: controller.allMonstersJson[monster.id.toString()])),
-                                                          );
+                                                          controller.navigateToDetailsPage(context, monster.id);
                                                         },
                                                       )),
                                                 ],

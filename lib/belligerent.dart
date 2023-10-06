@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
+import 'package:fluttericon/rpg_awesome_icons.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class Belligerent {
@@ -15,6 +15,15 @@ class Belligerent {
   BelligerentType? belligerentType;
   int currentPv;
   List<BelligerentDebuff> debuffs = <BelligerentDebuff>[];
+  int? monsterId;
+  int? strength;
+  int? dexterity;
+  int? constitution;
+  int? intelligence;
+  int? wisdom;
+  int? charisma;
+  String? tokenUrl;
+  Map<String, bool> superiorAbilities;
 
   Belligerent(
       {required this.name,
@@ -25,7 +34,16 @@ class Belligerent {
       this.belligerentType,
       required this.currentInitiative,
       required this.uuid,
-      required this.debuffs});
+      required this.debuffs,
+      required this.monsterId,
+      required this.strength,
+      required this.dexterity,
+      required this.constitution,
+      required this.intelligence,
+      required this.wisdom,
+      required this.charisma,
+      required this.superiorAbilities,
+      required this.tokenUrl});
 
   double getRatioOfPv() {
     return currentPv / maxPv;
@@ -66,16 +84,35 @@ class Belligerent {
 }
 
 Belligerent _$BelligerentFromJson(Map<String, dynamic> json) => Belligerent(
-      name: json['name'] as String,
-      uuid: json['uuid'] as String,
-      defense: json['defense'] as int,
-      initiative: json['initiative'] as int,
-      currentInitiative: json['currentInitiative'] as int,
-      maxPv: json['maxPv'] as int,
-      currentPv: json['currentPv'] as int,
-      belligerentType: BelligerentType.fromCode(json['belligerentType'] as int),
-      debuffs: List<BelligerentDebuff>.from((json['debuffs'] as Iterable).map<BelligerentDebuff>((dynamic e) => BelligerentDebuff.fromJson(e))),
-    );
+    name: json['name'] as String,
+    uuid: json['uuid'] as String,
+    defense: json['defense'] as int,
+    initiative: json['initiative'] as int,
+    currentInitiative: json['currentInitiative'] as int,
+    maxPv: json['maxPv'] as int,
+    currentPv: json['currentPv'] as int,
+    belligerentType: BelligerentType.fromCode(json['belligerentType'] as int),
+    debuffs: List<BelligerentDebuff>.from((json['debuffs'] as Iterable).map<BelligerentDebuff>((dynamic e) => BelligerentDebuff.fromJson(e))),
+    monsterId: json['monsterId'] as int?,
+    strength: json['strength'] as int?,
+    dexterity: json['dexterity'] as int?,
+    constitution: json['constitution'] as int?,
+    intelligence: json['intelligence'] as int?,
+    wisdom: json['wisdom'] as int?,
+    charisma: json['charisma'] as int?,
+    superiorAbilities: mapSuperiorAbilites(json['superiorAbilities']),
+    tokenUrl: json['tokenUrl']);
+
+Map<String, bool> mapSuperiorAbilites(Map<String, dynamic>? superiorAbilitiesJson) {
+  Map<String, bool> superiorAbilities = {};
+  print(superiorAbilitiesJson);
+  if (superiorAbilitiesJson != null) {
+    superiorAbilitiesJson.forEach((key, value) {
+      superiorAbilities[key] = "true" == value.toString();
+    });
+  }
+  return superiorAbilities;
+}
 
 Map<String, dynamic> _$BelligerentToJson(Belligerent instance) => <String, dynamic>{
       'name': instance.name,
@@ -86,7 +123,16 @@ Map<String, dynamic> _$BelligerentToJson(Belligerent instance) => <String, dynam
       'maxPv': instance.maxPv,
       'currentPv': instance.currentPv,
       'belligerentType': instance.belligerentType?.code,
-      'debuffs': instance.debuffs.map((e) => e.toJson()).toList()
+      'debuffs': instance.debuffs.map((e) => e.toJson()).toList(),
+      'monsterId': instance.monsterId,
+      'strength': instance.strength,
+      'dexterity': instance.dexterity,
+      'constitution': instance.constitution,
+      'intelligence': instance.intelligence,
+      'wisdom': instance.wisdom,
+      'charisma': instance.charisma,
+      'superiorAbilities': instance.superiorAbilities,
+      'tokenUrl': instance.tokenUrl
     };
 
 @JsonSerializable()
@@ -138,10 +184,10 @@ enum BelligerentDebuffType {
   stunned(3, Icons.ssid_chart, "Étourdi", "Aucune action possible, DEF -5"),
   rooted(4, Icons.vertical_align_bottom_sharp, "Immobilisé", "d12 pour tous les tests au lieu du d20, pas de déplacement"),
   paralyzed(5, Icons.accessible, "Paralysé", "Aucune action possible, en cas d’attaque : touché automatiquement et subit un coup critique"),
-  slowed(6, Icons.slow_motion_video, "Ralenti", "Une seule action par tour (action d’attaque ou de mouvement)"),
-  knockedDown(7, Icons.u_turn_right_sharp, "Renversé", "Att. -5, DEF -5, nécessite une action de mouvement pour se relever"),
+  slowed(6, RpgAwesome.snail, "Ralenti", "Une seule action par tour (action d’attaque ou de mouvement)"),
+  knockedDown(7, RpgAwesome.falling, "Renversé", "Att. -5, DEF -5, nécessite une action de mouvement pour se relever"),
   surprised(8, Icons.supervisor_account, "Surpris", "Pas d’action, DEF -5 au 1er tour de combat"),
-  other(9, Icons.live_help, "Autre", "");
+  other(9, RpgAwesome.aura, "Autre", "");
 
   final int code;
   final IconData icon;
@@ -152,5 +198,22 @@ enum BelligerentDebuffType {
 
   static BelligerentDebuffType fromCode(int code) {
     return BelligerentDebuffType.values.firstWhere((element) => element.code == code);
+  }
+}
+
+enum SuperiorCaracteristics {
+  str("FOR"),
+  dex("DEX"),
+  con("CON"),
+  int("INT"),
+  wis("SAG"),
+  cha("CHA");
+
+  final String label;
+
+  const SuperiorCaracteristics(this.label);
+
+  static SuperiorCaracteristics fromCode(String code) {
+    return SuperiorCaracteristics.values.firstWhere((element) => element.name == code);
   }
 }

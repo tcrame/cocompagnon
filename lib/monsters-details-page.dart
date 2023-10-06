@@ -14,15 +14,14 @@ import 'monsters-page.dart';
 
 class MonstersDetailPage extends StatelessWidget {
   final Monster monster;
-  final dynamic monsterJson;
 
-  const MonstersDetailPage({super.key, required this.monster, this.monsterJson});
+  const MonstersDetailPage({super.key, required this.monster});
 
   @override
   Widget build(BuildContext mainContext) {
     return ChangeNotifierProvider<MonstersPageDetailsController>(create: (BuildContext context) {
       var monsterPageDetailsController = MonstersPageDetailsController();
-      monsterPageDetailsController.loadMonsterDetails(monster.id, monsterJson);
+      monsterPageDetailsController.loadMonsterDetails(monster.id);
       return monsterPageDetailsController;
     }, builder: (context, child) {
       final controller = context.watch<MonstersPageDetailsController>();

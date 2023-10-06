@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cocompagnon/combat-page-controller.dart';
 import 'package:cocompagnon/monsters-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -150,12 +153,12 @@ class CombatPage extends StatelessWidget {
                 ),
               ),
               child: ListView.separated(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 90),
                 itemCount: controller.belligerents.length,
                 itemBuilder: (BuildContext context, int index) {
                   final belligerent = controller.belligerents[index];
                   return Container(
-                      padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage("assets/images/parchment.png"),
@@ -163,13 +166,12 @@ class CombatPage extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
-                      height: 100,
                       child: Row(
                         children: [
                           Expanded(
                             flex: 9,
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                               child: Column(
                                 children: [
                                   Row(
@@ -181,37 +183,72 @@ class CombatPage extends StatelessWidget {
                                             Expanded(
                                               flex: 1,
                                               child: Icon(
-                                                Icons.accessibility,
+                                                RpgAwesome.crossed_swords,
                                                 color: belligerent.belligerentType == BelligerentType.ally ? Colors.blue : Colors.red,
                                               ),
                                             ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Visibility(
+                                                visible: belligerent.tokenUrl != null && belligerent.tokenUrl != "",
+                                                child: CachedNetworkImage(
+                                                  height: 30,
+                                                  width: 30,
+                                                  imageUrl: belligerent.tokenUrl != null && belligerent.tokenUrl != "" ? belligerent.tokenUrl! : "",
+                                                  progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
+                                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
                                             Expanded(
                                               flex: 9,
-                                              child: Padding(
-                                                padding: const EdgeInsets.fromLTRB(7, 0, 0, 0),
-                                                child: SingleChildScrollView(
-                                                    scrollDirection: Axis.horizontal,
-                                                    child: Text(
-                                                      '${belligerent.name} ',
-                                                      style: GoogleFonts.kalam(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                      ),
-                                                    )),
-                                              ),
+                                              child: SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: Text(
+                                                    '${belligerent.name} ',
+                                                    style: GoogleFonts.kalam(
+                                                      color: Colors.white,
+                                                      fontSize: 18,
+                                                    ),
+                                                  )),
                                             ),
                                           ],
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
                                       Expanded(
-                                        flex: 3,
+                                          flex: 4,
+                                          child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(children: <Widget>[
+                                                const Icon(
+                                                  Icons.security,
+                                                  color: Colors.blueAccent,
+                                                ),
+                                                Text('${belligerent.defense}'),
+                                                const Icon(
+                                                  Icons.trending_up_outlined,
+                                                  color: Colors.green,
+                                                ),
+                                                Text('${belligerent.currentInitiative}'),
+                                              ]))),
+                                      Expanded(
+                                        flex: 8,
                                         child: GestureDetector(
                                             onTap: () => openEditHealthPointsAnimated(context, belligerent),
                                             child: Stack(
                                               children: <Widget>[
                                                 SizedBox(
                                                     child: Container(
-                                                  margin: const EdgeInsets.symmetric(vertical: 6),
                                                   height: 30,
                                                   child: ClipRRect(
                                                     borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -223,7 +260,7 @@ class CombatPage extends StatelessWidget {
                                                   ),
                                                 )),
                                                 Padding(
-                                                  padding: const EdgeInsets.fromLTRB(0, 11, 0, 0),
+                                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                                   child: Align(
                                                     alignment: Alignment.center,
                                                     child: Text(
@@ -239,8 +276,11 @@ class CombatPage extends StatelessWidget {
                                         flex: 1,
                                         child: Visibility(
                                           visible: belligerent.debuffs.isNotEmpty,
+                                          maintainSize: true,
+                                          maintainState: true,
+                                          maintainAnimation: true,
                                           child: PopupMenuButton<int>(
-                                            icon: const Icon(Icons.sentiment_very_dissatisfied),
+                                            icon: Icon(controller.showDebuffIcon(belligerent)),
                                             itemBuilder: (context) => belligerent.debuffs.map<PopupMenuItem<int>>((BelligerentDebuff currentDebuff) {
                                               return PopupMenuItem(
                                                   value: 1,
@@ -258,20 +298,86 @@ class CombatPage extends StatelessWidget {
                                   Row(
                                     children: <Widget>[
                                       Expanded(
-                                          flex: 6,
+                                          flex: 1,
                                           child: SingleChildScrollView(
                                               scrollDirection: Axis.horizontal,
                                               child: Row(children: <Widget>[
-                                                const Icon(
-                                                  Icons.security,
-                                                  color: Colors.blueAccent,
+                                                Visibility(
+                                                  visible: belligerent.strength != null,
+                                                  child: const Icon(
+                                                    RpgAwesome.muscle_up,
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
-                                                Text('${belligerent.defense}'),
-                                                const Icon(
-                                                  Icons.trending_up_outlined,
-                                                  color: Colors.green,
+                                                Visibility(
+                                                    visible: belligerent.strength != null,
+                                                    child: Text('${controller.calculateMod(belligerent.strength)}${controller.showSuperiorAbility("str", belligerent)}')),
+                                                Visibility(
+                                                  visible: belligerent.dexterity != null,
+                                                  child: const Icon(
+                                                    RpgAwesome.feather_wing,
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
-                                                Text('${belligerent.currentInitiative}'),
+                                                Visibility(
+                                                    visible: belligerent.dexterity != null,
+                                                    child: Text('${controller.calculateMod(belligerent.dexterity)}${controller.showSuperiorAbility("dex", belligerent)}')),
+                                                Visibility(
+                                                  visible: belligerent.constitution != null,
+                                                  child: const Icon(
+                                                    RpgAwesome.vest,
+                                                    color: Colors.blueGrey,
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                    visible: belligerent.constitution != null,
+                                                    child: Text('${controller.calculateMod(belligerent.constitution)}${controller.showSuperiorAbility("con", belligerent)}')),
+                                                const SizedBox(
+                                                  width: 3,
+                                                ),
+                                                Visibility(
+                                                  visible: belligerent.intelligence != null,
+                                                  child: const Icon(
+                                                    size: 20,
+                                                    FontAwesome5.brain,
+                                                    color: Colors.pinkAccent,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Visibility(
+                                                    visible: belligerent.intelligence != null,
+                                                    child: Text("${controller.calculateMod(belligerent.intelligence)}${controller.showSuperiorAbility('int', belligerent)}")),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Visibility(
+                                                  visible: belligerent.wisdom != null,
+                                                  child: const Icon(
+                                                    FontAwesome5.eye,
+                                                    color: Colors.blueGrey,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Visibility(
+                                                    visible: belligerent.wisdom != null,
+                                                    child: Text("${controller.calculateMod(belligerent.wisdom)}${controller.showSuperiorAbility('wis', belligerent)}")),
+                                                const SizedBox(
+                                                  width: 3,
+                                                ),
+                                                Visibility(
+                                                  visible: belligerent.charisma != null,
+                                                  child: const Icon(
+                                                    RpgAwesome.speech_bubbles,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                    visible: belligerent.charisma != null,
+                                                    child: Text("${controller.calculateMod(belligerent.charisma)}${controller.showSuperiorAbility('cha', belligerent)}")),
                                               ]))),
                                     ],
                                   ),
@@ -303,9 +409,17 @@ class CombatPage extends StatelessWidget {
                                 PopupMenuItem(
                                     value: 3,
                                     child: ElevatedButton.icon(
-                                      icon: const Icon(Icons.sentiment_very_dissatisfied),
+                                      icon: const Icon(RpgAwesome.aura),
                                       label: const Text("Ajouter altération d'état"),
                                       onPressed: () => openAddDebuff(context, belligerent.uuid),
+                                    )),
+                                PopupMenuItem(
+                                    value: 4,
+                                    enabled: belligerent.monsterId != null,
+                                    child: ElevatedButton.icon(
+                                      icon: const Icon(Icons.zoom_in),
+                                      label: const Text("Voir détail"),
+                                      onPressed: () => controller.navigateToDetailsPage(context, belligerent),
                                     )),
                               ],
                             ),
@@ -318,10 +432,10 @@ class CombatPage extends StatelessWidget {
           floatingActionButton: Wrap(
             direction: Axis.horizontal, //use vertical to show  on vertical axis
             children: <Widget>[
-              Container(margin: EdgeInsets.all(10), child: FloatingActionButton(heroTag: "addBelligerent", onPressed: () => openAddForm(context, ""), child: const Icon(Icons.add))),
+              Container(margin: const EdgeInsets.all(10), child: FloatingActionButton(heroTag: "addBelligerent", onPressed: () => openAddForm(context, ""), child: const Icon(Icons.add))),
 
               Container(
-                  margin: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(10),
                   child: FloatingActionButton(
                     heroTag: "rollTurn",
                     onPressed: () {
@@ -499,6 +613,7 @@ class CombatPage extends StatelessWidget {
       builder: (BuildContext ctx) {
         final controller = context.watch<CombatPageController>();
 
+        final _formKey = GlobalKey<FormState>();
         controller.initControllers(updateUuid);
 
         return StatefulBuilder(
@@ -508,10 +623,17 @@ class CombatPage extends StatelessWidget {
                   content: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Form(
+                      key: _formKey,
                       child: Column(
                         children: [
                           TextFormField(
                             controller: controller.nameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'obligatoire';
+                              }
+                              return null;
+                            },
                             decoration: const InputDecoration(
                               labelText: "Nom",
                               icon: Icon(Icons.account_box),
@@ -521,6 +643,12 @@ class CombatPage extends StatelessWidget {
                             controller: controller.currentPvController,
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'obligatoire';
+                              }
+                              return null;
+                            },
                             decoration: const InputDecoration(
                               labelText: "PV actuel",
                               icon: Icon(
@@ -532,6 +660,12 @@ class CombatPage extends StatelessWidget {
                           TextFormField(
                             controller: controller.maxPvController,
                             keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'obligatoire';
+                              }
+                              return null;
+                            },
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             decoration: const InputDecoration(
                               labelText: "Max PV",
@@ -545,6 +679,12 @@ class CombatPage extends StatelessWidget {
                             controller: controller.defenseController,
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'obligatoire';
+                              }
+                              return null;
+                            },
                             decoration: const InputDecoration(
                               labelText: "Defense",
                               icon: Icon(
@@ -557,6 +697,12 @@ class CombatPage extends StatelessWidget {
                             controller: controller.initiativeController,
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'obligatoire';
+                              }
+                              return null;
+                            },
                             decoration: const InputDecoration(
                               labelText: "Initiative",
                               icon: Icon(Icons.trending_up_outlined, color: Colors.green),
@@ -589,7 +735,121 @@ class CombatPage extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          )
+                          ),
+                          TextFormField(
+                            controller: controller.strengthController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            decoration: const InputDecoration(
+                              labelText: "FOR",
+                              icon: Icon(
+                                RpgAwesome.muscle_up,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controller.dexterityController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            decoration: const InputDecoration(
+                              labelText: "DEX",
+                              icon: Icon(
+                                RpgAwesome.feather_wing,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controller.constitutionController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            decoration: const InputDecoration(
+                              labelText: "CON",
+                              icon: Icon(
+                                RpgAwesome.vest,
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controller.intelligenceController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            decoration: const InputDecoration(
+                              labelText: "INT",
+                              icon: Icon(
+                                size: 20,
+                                FontAwesome5.brain,
+                                color: Colors.pinkAccent,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controller.wisdomController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            decoration: const InputDecoration(
+                              labelText: "SAG",
+                              icon: Icon(
+                                FontAwesome5.eye,
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controller.charismaController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                            decoration: const InputDecoration(
+                              labelText: "CHA",
+                              icon: Icon(
+                                RpgAwesome.speech_bubbles,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controller.tokenUrlController,
+                            keyboardType: TextInputType.url,
+                            decoration: const InputDecoration(
+                              labelText: "Token URL",
+                              icon: Icon(
+                                FontAwesome5.file_image,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          const Text('Characteristiques supérieures'),
+                          const SizedBox(height: 5.0),
+                          Wrap(
+                            spacing: 5.0,
+                            children: SuperiorCaracteristics.values.map((SuperiorCaracteristics superiorCaract) {
+                              var selectedFilter = controller.superiorCaracteristics.contains(superiorCaract);
+                              return FilterChip(
+                                backgroundColor: Colors.white,
+                                selectedColor: Colors.green,
+                                label: Text(
+                                  superiorCaract.label,
+                                  style: TextStyle(
+                                    color: selectedFilter == true ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                shape: StadiumBorder(
+                                  side: BorderSide(
+                                    color: selectedFilter == true ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                selected: selectedFilter,
+                                onSelected: (bool selected) {
+                                  setStateSB(() {
+                                    controller.removeOrAddSuperiorCaracteristicSelection(selectedFilter, superiorCaract);
+                                  });
+                                },
+                                showCheckmark: false,
+                              );
+                            }).toList(),
+                          ),
                         ],
                       ),
                     ),
@@ -604,17 +864,35 @@ class CombatPage extends StatelessWidget {
                     ElevatedButton(
                       child: Text(updateUuid == "" ? "Ajouter" : "Modifier"),
                       onPressed: () {
-                        var defense = controller.defenseController.text != "" ? int.parse(controller.defenseController.text) : 0;
-                        var initiative = controller.initiativeController.text != "" ? int.parse(controller.initiativeController.text) : 0;
-                        var maxPv = controller.maxPvController.text != "" ? int.parse(controller.maxPvController.text) : 0;
-                        var currentPv = controller.currentPvController.text != "" ? int.parse(controller.currentPvController.text) : 0;
-                        if (updateUuid == "") {
-                          controller.addBelligerent(controller.nameController.text, defense, initiative, currentPv, maxPv, controller.belligerentType);
-                        } else {
-                          controller.editBelligerent(updateUuid, controller.nameController.text, defense, initiative, currentPv, maxPv, controller.belligerentType);
+                        if (_formKey.currentState!.validate()) {
+                          var defense = controller.defenseController.text != "" ? int.parse(controller.defenseController.text) : 0;
+                          var initiative = controller.initiativeController.text != "" ? int.parse(controller.initiativeController.text) : 0;
+                          var maxPv = controller.maxPvController.text != "" ? int.parse(controller.maxPvController.text) : 0;
+                          var currentPv = controller.currentPvController.text != "" ? int.parse(controller.currentPvController.text) : 0;
+
+                          var strength = controller.strengthController.text != "" ? int.parse(controller.strengthController.text) : null;
+                          var dexterity = controller.dexterityController.text != "" ? int.parse(controller.dexterityController.text) : null;
+                          var constitution = controller.constitutionController.text != "" ? int.parse(controller.constitutionController.text) : null;
+                          var intelligence = controller.intelligenceController.text != "" ? int.parse(controller.intelligenceController.text) : null;
+                          var wisdom = controller.wisdomController.text != "" ? int.parse(controller.wisdomController.text) : null;
+                          var charisma = controller.charismaController.text != "" ? int.parse(controller.charismaController.text) : null;
+                          var tokenUrl = controller.charismaController.text != "" ? controller.tokenUrlController.text : null;
+
+                          Map<String, bool> superiorCaracs = {};
+                          SuperiorCaracteristics.values.forEach((element) {
+                            superiorCaracs[element.name] = controller.superiorCaracteristics.contains(element);
+                          });
+
+                          if (updateUuid == "") {
+                            controller.addBelligerent(controller.nameController.text, defense, initiative, currentPv, maxPv, controller.belligerentType, null, strength, dexterity, constitution,
+                                intelligence, wisdom, charisma, superiorCaracs, tokenUrl);
+                          } else {
+                            controller.editBelligerent(updateUuid, controller.nameController.text, defense, initiative, currentPv, maxPv, controller.belligerentType, strength, dexterity, constitution,
+                                intelligence, wisdom, charisma, superiorCaracs, tokenUrl);
+                            Navigator.pop(context);
+                          }
                           Navigator.pop(context);
                         }
-                        Navigator.pop(context);
                       },
                     ),
                   ],

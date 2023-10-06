@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:cocompagnon/monsterDetails.dart';
+import 'package:cocompagnon/monster-details.dart';
+import 'package:cocompagnon/shared-preferences-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,8 +10,8 @@ import 'monster.dart';
 class MonstersPageDetailsController extends ChangeNotifier {
   MonsterDetails? monsterDetails;
 
-  Future<void> loadMonsterDetails(int id, dynamic monsterJson) async {
-    loadCreature(monsterJson).whenComplete(() => notifyListeners());
+  Future<void> loadMonsterDetails(int id) async {
+    loadCreature(SharedPreferencesUtils.allMonstersJson[id.toString()]).whenComplete(() => notifyListeners());
   }
 
   Future<dynamic> restoreMonster(int id) async {
@@ -47,7 +48,6 @@ class MonstersPageDetailsController extends ChangeNotifier {
       List<MonsterCapability?> capabilities = getCapabilities(storedCreature);
       List<String?> specialCapabilities = getSpecialCapabilities(storedCreature);
       MonsterProfile? monsterProfile = getMonsterProfile(storedCreature);
-
 
       monsterDetails = MonsterDetails(description, appearance, comments, size, creatureTokenUrl.replaceAll("/creatures_token/", "/original_compressed/"), category, environment, archetype, bossRank,
           MonsterFamilly(monsterFamillyLabel, monsterFamillyId), attacks, paths, capabilities, specialCapabilities, monsterProfile);
@@ -151,7 +151,7 @@ class MonstersPageDetailsController extends ChangeNotifier {
   MonsterProfile? getMonsterProfile(creatureJson) {
     String? label = getValueFromJsonWithArray(creatureJson, "profile", "label", "");
     int? level = int.parse(getValueFromJsonWithArray(creatureJson, "profile_level", "value", "0"));
-    if(label != null && label != "") {
+    if(label != "") {
       return MonsterProfile(label, level);
     } else {
       return null;

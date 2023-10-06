@@ -16,7 +16,7 @@ class Monster {
   int intelligence = 0;
   int wisdom = 0;
   int charisma = 0;
-  Map<String, bool> superiorAbilities;
+  Map<String, bool> superiorAbilities = {};
 
   String getFormatedNcLevel() {
     return "$ncLevel".replaceAll(".0", "");

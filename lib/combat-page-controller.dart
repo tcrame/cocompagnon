@@ -1,10 +1,12 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:cocompagnon/belligerent.dart';
+import 'package:cocompagnon/shared-preferences-utils.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:uuid/uuid.dart';
+
+import 'monsters-details-page.dart';
 
 class CombatPageController extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
@@ -16,6 +18,17 @@ class CombatPageController extends ChangeNotifier {
   TextEditingController debuffNbTurnsController = TextEditingController();
   TextEditingController addDamageController = TextEditingController();
   TextEditingController removeDamageController = TextEditingController();
+
+  TextEditingController strengthController = TextEditingController();
+  TextEditingController dexterityController = TextEditingController();
+  TextEditingController constitutionController = TextEditingController();
+  TextEditingController intelligenceController = TextEditingController();
+  TextEditingController wisdomController = TextEditingController();
+  TextEditingController charismaController = TextEditingController();
+  TextEditingController tokenUrlController = TextEditingController();
+
+  Set<SuperiorCaracteristics> superiorCaracteristics = {};
+
   BelligerentType? belligerentType = BelligerentType.ally;
   BelligerentDebuffType belligerentDebuffType = BelligerentDebuffType.blind;
   int turn = 1;
@@ -23,12 +36,13 @@ class CombatPageController extends ChangeNotifier {
 
   List<Belligerent> belligerents = <Belligerent>[];
 
-  updateBelligerentType(BelligerentType? belligerentType) {
+
+  void updateBelligerentType(BelligerentType? belligerentType) {
     this.belligerentType = belligerentType;
     notifyListeners();
   }
 
-  updateBelligerentDebuffType(String? type) {
+  void updateBelligerentDebuffType(String? type) {
     belligerentDebuffType = BelligerentDebuffType.values.firstWhere((e) => e.name == type);
     debuffCommentController.text = belligerentDebuffType.description;
     notifyListeners();
@@ -46,7 +60,8 @@ class CombatPageController extends ChangeNotifier {
 
   var uuidGenerator = const Uuid();
 
-  addBelligerent(String name, int defense, int initiative, int currentPv, int maxPv, BelligerentType? belligerentType) {
+  addBelligerent(String name, int defense, int initiative, int currentPv, int maxPv, BelligerentType? belligerentType, int? monsterId, int? strength, int? dexterity, int? constitution,
+      int? intelligence, int? wisdom, int? charisma, Map<String, bool> superiorAbilities, String? tokenUrl) {
     int currentInit = initiative + Random().nextInt(6) + 1;
     String string = uuidGenerator.v1();
     var newBelligerent = Belligerent(
@@ -58,33 +73,51 @@ class CombatPageController extends ChangeNotifier {
         belligerentType: belligerentType,
         currentInitiative: currentInit,
         uuid: string,
-        debuffs: <BelligerentDebuff>[]);
+        debuffs: <BelligerentDebuff>[],
+        monsterId: monsterId,
+        strength: strength,
+        dexterity: dexterity,
+        constitution: constitution,
+        intelligence: intelligence,
+        wisdom: wisdom,
+        charisma: charisma,
+        superiorAbilities: superiorAbilities,
+        tokenUrl: tokenUrl);
     belligerents.add(newBelligerent);
-    saveBelligerent(newBelligerent);
+    SharedPreferencesUtils.saveBelligerent(newBelligerent);
     sortBelligerentsAndRefresh();
   }
 
-  editBelligerent(String uuid, String name, int defense, int initiative, int currentPv, int maxPv, BelligerentType? belligerentType) {
-    var belligerentToUpdate = belligerents.firstWhere((element) => element.uuid == uuid);
+  void editBelligerent(String uuid, String name, int defense, int initiative, int currentPv, int maxPv, BelligerentType? belligerentType, int? strength, int? dexterity, int? constitution,
+      int? intelligence, int? wisdom, int? charisma, Map<String, bool> superiorCaracs, String? tokenUrl) {
+    Belligerent belligerentToUpdate = belligerents.firstWhere((element) => element.uuid == uuid);
     belligerentToUpdate.name = name;
     belligerentToUpdate.defense = defense;
     belligerentToUpdate.initiative = initiative;
     belligerentToUpdate.maxPv = maxPv;
     belligerentToUpdate.currentPv = currentPv;
     belligerentToUpdate.belligerentType = belligerentType;
-    saveBelligerent(belligerentToUpdate);
+    belligerentToUpdate.strength = strength;
+    belligerentToUpdate.dexterity = dexterity;
+    belligerentToUpdate.constitution = constitution;
+    belligerentToUpdate.intelligence = intelligence;
+    belligerentToUpdate.wisdom = wisdom;
+    belligerentToUpdate.charisma = charisma;
+    belligerentToUpdate.superiorAbilities = superiorCaracs;
+    belligerentToUpdate.tokenUrl = tokenUrl;
+    SharedPreferencesUtils.saveBelligerent(belligerentToUpdate);
     sortBelligerentsAndRefresh();
   }
 
-  rollInitiatives() {
+  void rollInitiatives() {
     for (var beligerent in belligerents) {
       beligerent.recalculateInitiative(isInitiativeOptionalRuleActivated);
       beligerent.recalculateDebuffs();
-      saveBelligerent(beligerent);
+      SharedPreferencesUtils.saveBelligerent(beligerent);
     }
     sortBelligerentsAndRefresh();
     turn++;
-    saveCurrentTurn();
+    SharedPreferencesUtils.saveCurrentTurn(turn);
   }
 
   String getModalTitle(String uuid) {
@@ -105,75 +138,47 @@ class CombatPageController extends ChangeNotifier {
     }
   }
 
-  removeBelligerent(String uuid) {
+  void removeBelligerent(String uuid) {
     belligerents.removeWhere((element) => element.uuid == uuid);
-    deleteBelligerent(uuid);
+    SharedPreferencesUtils.deleteBelligerent(uuid);
     sortBelligerentsAndRefresh();
   }
 
   void sortBelligerentsAndRefresh() {
     belligerents.sort((a, b) => b.currentInitiative.compareTo(a.currentInitiative));
-    saveBelligerentIds(belligerents.map((e) => e.uuid).toList());
+    SharedPreferencesUtils.saveBelligerentIds(belligerents.map((e) => e.uuid).toList());
     notifyListeners();
   }
 
   void initControllers(String updateUuid) {
     if (updateUuid != "") {
+      superiorCaracteristics = {};
       var belligerent = belligerents.firstWhere((element) => element.uuid == updateUuid);
       nameController.text = belligerent.name;
       defenseController.text = '${belligerent.defense}';
       initiativeController.text = '${belligerent.initiative}';
       maxPvController.text = '${belligerent.maxPv}';
       currentPvController.text = '${belligerent.currentPv}';
+      strengthController.text = belligerent.strength != null ? '${belligerent.strength}' : '';
+      dexterityController.text = belligerent.dexterity != null ? '${belligerent.dexterity}' : '';
+      constitutionController.text = belligerent.constitution != null ? '${belligerent.constitution}' : '';
+      intelligenceController.text = belligerent.intelligence != null ? '${belligerent.intelligence}' : '';
+      wisdomController.text = belligerent.wisdom != null ? '${belligerent.wisdom}' : '';
+      charismaController.text = belligerent.charisma != null ? '${belligerent.charisma}' : '';
+      tokenUrlController.text = belligerent.tokenUrl != null ? '${belligerent.tokenUrl}' : '';
       belligerentType = belligerent.belligerentType;
+      belligerent.superiorAbilities.entries.forEach((entry) {
+        if (entry.value == true) {
+          superiorCaracteristics.add(SuperiorCaracteristics.fromCode(entry.key));
+        }
+      });
     }
   }
 
   void addDebuffToBelligerentById(String updateUuid) {
     var belligerent = belligerents.firstWhere((element) => element.uuid == updateUuid);
     belligerent.debuffs.add(BelligerentDebuff(type: belligerentDebuffType, description: debuffCommentController.text, durationInTurn: int.parse(debuffNbTurnsController.text)));
-
-    saveBelligerent(belligerent);
-
-    notifyListeners();
-  }
-
-  Future<void> saveBelligerent(Belligerent belligerent) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(belligerent.uuid, jsonEncode(belligerent.toJson()));
-  }
-
-  Future<void> saveCurrentTurn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("currentTurn", turn);
-  }
-
-  Future<void> restoreCurrentTurn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? currentTurn = prefs.getInt("currentTurn");
-    turn = currentTurn ?? 1;
-  }
-
-  Future<void> deleteBelligerent(String uuid) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove(uuid);
-  }
-
-  Future<void> saveBelligerentIds(List<String> belligerentIds) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList("belligerentIds", belligerentIds);
-  }
-
-  Future<Belligerent> restoreBelligerent(String uuid) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? string = prefs.getString(uuid);
-    return Belligerent.fromJson(json.decode(string.toString()));
-  }
-
-  Future<void> restoreBelligerents() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var ids = prefs.getStringList("belligerentIds");
-    belligerents = ids != null ? ids.map((id) => Belligerent.fromJson(json.decode(prefs.getString(id).toString()))).toList() : <Belligerent>[];
+    SharedPreferencesUtils.saveBelligerent(belligerent);
     notifyListeners();
   }
 
@@ -194,9 +199,9 @@ class CombatPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  resetTurns() {
+  void resetTurns() {
     turn = 1;
-    saveCurrentTurn();
+    SharedPreferencesUtils.saveCurrentTurn(turn);
     notifyListeners();
   }
 
@@ -210,8 +215,39 @@ class CombatPageController extends ChangeNotifier {
     }
   }
 
+  String printCaracMod(int? mod) {
+    if (mod != null) {
+      if (mod > 0) {
+        return '+$mod';
+      } else {
+        return '$mod';
+      }
+    } else {
+      return '';
+    }
+  }
+
+  String calculateMod(int? flatCarac) {
+    if (flatCarac != null) {
+      if (flatCarac >= 10) {
+        int mod = (flatCarac % 2 == 0 ? (flatCarac - 10) / 2 : (flatCarac - 11) / 2).round();
+        return '+$mod';
+      } else {
+        int mod = (flatCarac % 2 == 0 ? flatCarac / 2 : (flatCarac - 1) / 2).round();
+        return '-$mod';
+      }
+    } else {
+      return '';
+    }
+  }
+
+  String showSuperiorAbility(String capabilityCode, Belligerent belligerent) {
+    bool? superiorAbility = belligerent.superiorAbilities[capabilityCode];
+    return superiorAbility == true ? "*" : "";
+  }
+
   void initRemainingDebuffForBelligerent(String uuid) {
-    var remainingDebuffs = this.getRemainingDebuffsForBelligerent(uuid);
+    var remainingDebuffs = getRemainingDebuffsForBelligerent(uuid);
     if (remainingDebuffs.isNotEmpty) {
       belligerentDebuffType = remainingDebuffs.first;
     } else {
@@ -261,19 +297,61 @@ class CombatPageController extends ChangeNotifier {
   }
 
   void toggleInitiativeOptionalRule(bool state) {
-    isInitiativeOptionalRuleActivated = !state;
-    saveInitiativeOptionalRuleState(state);
+    isInitiativeOptionalRuleActivated = !isInitiativeOptionalRuleActivated;
+    SharedPreferencesUtils.saveInitiativeOptionalRuleState(isInitiativeOptionalRuleActivated);
     notifyListeners();
   }
 
-  Future<void> saveInitiativeOptionalRuleState(bool state) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("initiativeOptionalRuleState", state);
+  void restoreBelligerents() {
+    SharedPreferencesUtils.restoreBelligerents().then((value) {
+      belligerents = value;
+      notifyListeners();
+    });
   }
 
-  Future<void> restoreInitiativeOptionalRuleState() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? state = prefs.getBool("initiativeOptionalRuleState");
-    isInitiativeOptionalRuleActivated = state ?? true;
+  void restoreCurrentTurn() {
+    SharedPreferencesUtils.restoreCurrentTurn().then((value) {
+      turn = value;
+      notifyListeners();
+    });
+  }
+
+  void restoreInitiativeOptionalRuleState() {
+    SharedPreferencesUtils.restoreInitiativeOptionalRuleState().then((value) {
+      isInitiativeOptionalRuleActivated = value;
+    });
+  }
+
+  void navigateToDetailsPage(context, Belligerent belligerent) {
+    if (belligerent.monsterId != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          var monsterId = belligerent.monsterId;
+          var monstersJson = SharedPreferencesUtils.allMonstersJson[monsterId.toString()];
+          return MonstersDetailPage(monster: SharedPreferencesUtils.buildMonster(monsterId!, monstersJson));
+        }),
+      );
+    }
+  }
+
+  void removeOrAddSuperiorCaracteristicSelection(bool selected, SuperiorCaracteristics superiorCaract) {
+    print("$selected = $superiorCaract");
+    if (selected) {
+      print("$superiorCaracteristics");
+      superiorCaracteristics.remove(superiorCaract);
+    } else {
+      superiorCaracteristics.add(superiorCaract);
+    }
+    notifyListeners();
+  }
+
+  showDebuffIcon(Belligerent belligerent) {
+    if(belligerent.debuffs.length == 1) {
+      return belligerent.debuffs.first.type!.icon;
+    } else if(belligerent.debuffs.length > 1) {
+      return RpgAwesome.aura;
+    }
+    return Icons.disabled_by_default;
   }
 }
