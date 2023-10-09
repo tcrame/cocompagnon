@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'belligerent.dart';
-import 'monster.dart';
+import '../models/belligerent.dart';
+import '../models/monster.dart';
 
 class SharedPreferencesUtils {
   static List<Monster> allMonsters = [];

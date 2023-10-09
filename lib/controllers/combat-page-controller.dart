@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:cocompagnon/belligerent.dart';
-import 'package:cocompagnon/shared-preferences-utils.dart';
+import 'package:cocompagnon/models/belligerent.dart';
+import 'package:cocompagnon/utils/shared-preferences-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:uuid/uuid.dart';
 
-import 'monsters-details-page.dart';
+import '../pages/monsters-details-page.dart';
 
 class CombatPageController extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();

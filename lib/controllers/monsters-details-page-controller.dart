@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:cocompagnon/monster-details.dart';
-import 'package:cocompagnon/shared-preferences-utils.dart';
+import 'package:cocompagnon/models/monster-details.dart';
+import 'package:cocompagnon/utils/shared-preferences-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'monster.dart';
+import '../models/monster.dart';
 
 class MonstersPageDetailsController extends ChangeNotifier {
   MonsterDetails? monsterDetails;

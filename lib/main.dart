@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'monsters-page.dart';
+import 'pages/monsters-page.dart';
 
 void main() {
   runApp(const MyApp());

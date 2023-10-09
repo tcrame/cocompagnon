@@ -1,11 +1,11 @@
-import 'package:cocompagnon/monster.dart';
-import 'package:cocompagnon/shared-preferences-utils.dart';
+import 'package:cocompagnon/models/monster.dart';
+import 'package:cocompagnon/utils/shared-preferences-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import 'belligerent.dart';
-import 'monster-ids.dart';
-import 'monsters-details-page.dart';
+import '../models/belligerent.dart';
+import '../models/monster-ids.dart';
+import '../pages/monsters-details-page.dart';
 
 class MonstersPageController extends ChangeNotifier {
   List<Monster> filteredMonsters = [];

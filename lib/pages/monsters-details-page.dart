@@ -1,16 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cocompagnon/combat-page.dart';
-import 'package:cocompagnon/monster.dart';
+import 'package:cocompagnon/models/monster.dart';
+import 'package:cocompagnon/pages/widgets/menu-drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'about-page.dart';
-import 'monsters-details-page-controller.dart';
-import 'monsters-page.dart';
+import '../controllers/monsters-details-page-controller.dart';
 
 class MonstersDetailPage extends StatelessWidget {
   final Monster monster;
@@ -55,53 +52,7 @@ class MonstersDetailPage extends StatelessWidget {
                     }),
                   ],
                 ),
-                drawer: Drawer(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      SizedBox(
-                        height: 130,
-                        child: DrawerHeader(
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade900,
-                          ),
-                          child: Text('Menu',
-                              style: GoogleFonts.kalam(
-                                color: Colors.white,
-                                fontSize: 40,
-                              )),
-                        ),
-                      ),
-                      ListTile(
-                        title: const Text('Tracker de combat'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const CombatPage()),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('Bestiaire'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const MonstersPage()),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        title: const Text('A propos'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AboutPage()),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                drawer: const MenuDrawer(),
                 body: Container(
                     decoration: const BoxDecoration(
                       image: DecorationImage(
