@@ -1,0 +1,214 @@
+{
+  "name": "Barbare",
+  "healthDice": "1D12",
+  "magicModificator": null,
+  "weaponsAndArmors": "Le Barbare sait manier toutes les armes au contact, toutes les armes à distance (sauf les arbalètes et les armes d’une technologie trop complexe). Il peut porter jusqu’à l’armure de cuir et manier le bouclier.",
+  "startEquipment": [
+    "Hache à 2 mains (DM 2d6)",
+    "2 javelots (DM 1d6, portée 20 m)",
+    "dague (DM 1d4)",
+    "armure de cuir (DEF +2)"
+  ],
+  "paths": [
+    {
+      "name": "Voie de la brute",
+      "capacities": [
+        {
+          "name": "Argument de taille",
+          "description": "Le Barbare ajoute son Mod. de FOR à son score de PV maximum ainsi qu’à ses tests de CHA et à ceux de ses alliés au contact pour les tests de négociation, de persuasion ou d’intimidation. Allez savoir pourquoi, sa simple présence donne de la force aux arguments de ses alliés...",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Tour de force",
+          "description": "Le Barbare peut temporairement décupler ses ressources physiques pour faire usage d’une force prodigieuse. Il peut ainsi soulever une charge incroyable, briser une épée, tordre des barreaux ou défoncer une porte d’un seul coup de poing. Il obtient un bonus de +10 à son test de FOR, mais cela lui coûte 1d4 PV.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Attaque brutale",
+          "description": "Le Barbare réalise une attaque au contact avec une pénalité de -2 en attaque et +1d6 au DM. Au Rang 5 de la voie, il peut choisir une pénalité de -5 pour obtenir +2d6 aux DM.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Briseur d’os",
+          "description": "Les coups critiques du Barbare sont terribles et provoquent des handicaps durables. Le Barbare obtient un critique sur 19 et 20 au résultat du d20 en attaque au contact. Lorsqu’il obtient un critique, en plus des DM doublés, il inflige une pénalité de -2 à tous les tests d’attaque, de FOR et de DEX de sa victime. Cette pénalité affecte la cible jusqu’à ce qu’elle soit complètement guérie.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Force héroïque",
+          "description": "Le personnage augmente sa valeur de FOR de +2 et il peut désormais lancer deux d20 à chaque fois qu’un test de FOR lui est demandé et garder le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du pagne",
+      "capacities": [
+        {
+          "name": "Vigueur",
+          "description": "Le Barbare est un athlète capable de prouesses physiques extraordinaires, il obtient un bonus de +2 par Rang dans la voie aux tests de course, de saut ou d’escalade.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Peau de pierre",
+          "description": "Le Barbare est particulièrement endurci, il reçoit un bonus de DEF égal à son Mod. de CON.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Tatouages",
+          "description": "Le Barbare possède un tatouage magique qui améliore ses performances physiques. Au choix : taureau (+5 aux tests de FOR), ours (+5 aux tests de CON), panthère (+5 aux tests de DEX) ou chouette (+5 aux tests de SAG).",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Peau d’acier",
+          "description": "Le Barbare ne sent plus la douleur et ignore les égratignures, il réduit tous les DM subits de 3 points. Il subit toujours au moins 1 point de DM de chaque attaque reçue.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Constitution héroïque",
+          "description": "Le personnage augmente son score de CON de +2 et il peut désormais lancer deux d20 à chaque fois qu’un test de CON lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du pourfendeur",
+      "capacities": [
+        {
+          "name": "Réflexes félins",
+          "description": "Le Barbare obtient un bonus de +1 par Rang dans cette voie à son score d'Initiative et à tous les tests de DEX destinés à esquiver (Boule de feu, souffle, pièges, etc.).",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Charge",
+          "description": "Le Barbare se déplace en ligne droite d’au moins 5 mètres (20 mètres au maximum) et effectue une attaque au contact avec un bonus de +2 en attaque et +1d6 aux DM.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Enchaînement",
+          "description": "Chaque fois que le Barbare réduit un adversaire à 0 PV avec une attaque de contact, il bénéficie d’une action d’attaque gratuite sur un autre adversaire au contact.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Déchaînement d’acier",
+          "description": "Le Barbare parcourt 10 mètres en ligne droite en dépassant autant d’ennemis qu’il le souhaite. Il porte une attaque à chaque adversaire sur son passage. Il ne peut terminer son déplacement à un endroit occupé par un ennemi.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Attaque tourbillon",
+          "description": "Une fois par combat, le Barbare tourne sur lui-même en assénant des attaques à toutes les cibles au contact. Il inflige automatiquement des DM correspondant à l’arme utilisée (plus tous les bonus habituels) à toutes les cibles dans un rayon de 5 m autour de lui.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie du primitif",
+      "capacities": [
+        {
+          "name": "Proche de la nature",
+          "description": "Le Barbare obtient un bonus de +1 par Rang dans la voie aux tests de survie, de discrétion ou d’observation en milieu naturel.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Armure de vent",
+          "description": "Le Barbare obtient un bonus en DEF égal à son Rang dans la voie lorsqu’il ne porte aucune armure.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Vigilance",
+          "description": "Le Barbare possède des sens très affûtés, il est difficile de le surprendre, il gagne un bonus de +5 à tous les tests pour détecter les pièges (mécaniques ou magiques) ou les embuscades. Il devient immunisé aux Attaques sournoises d’un Voleur, à l’Embuscade d’un Rôdeur ou à toute capacité similaire d’une créature.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Résistance à la magie",
+          "description": "Le Barbare devient capable de résister à la magie. Lorsqu’il est la cible d’un sort, une fois par tour, il peut faire un test d’attaque magique (Mod. de SAG) opposé à celui du sort. En cas de réussite, il n’en subit pas les effets.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Vitalité débordante",
+          "description": "Le Barbare guérit à une vitesse presque surnaturelle. Tant qu’il lui reste au moins 1 PV, il récupère 1d6 PV par heure, de nuit comme de jour.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de la rage",
+      "capacities": [
+        {
+          "name": "Cri de guerre",
+          "description": "Une fois par combat, le Barbare pousse un hurlement qui effraie ses adversaires. Tout ennemi dont la FOR et les PV maximum sont inférieurs à ceux du Barbare subit un malus de -2 à ses tests d’attaque au contact contre le personnage pour le reste du combat. Cette capacité ne nécessite plus qu’une action de mouvement à partir du rang 4.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Défier la mort",
+          "description": "Lorsque le Barbare subit des DM d’une attaque qui devrait l’amener à 0 PV, il peut réaliser un test de CON difficulté 10. En cas de réussite, il conserve 1 PV. La difficulté augmente de 10 à chaque blessure supplémentaire reçue par la suite. S’il est enragé il obtient un bonus de +10 à ces tests.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Rage du berserk",
+          "description": "Le Barbare entre dans une rage berserk pour le reste du combat, ce qui le rend particulièrement dangereux. Il obtient un bonus de +2 en attaque et +1d6 aux DM sur toutes ses attaques au contact, mais perd 4 en DEF et ne peut fuir ou attaquer à distance. S’il veut stopper la rage avant d’avoir éliminé tous les ennemis sur le terrain, le Barbare doit réussir un test de SAG difficulté 13 (un seul essai par tour).",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Même pas mal",
+          "description": "Lorsqu’il subit un coup critique, cela a pour effet de décupler la rage du barbare. Il peut immédiatement entrer en Rage ou en Furie (action gratuite), et gagne un bonus de +1d6 aux DM de ses attaques au contact pour les 3 prochains tours. Le joueur note les DM supplémentaires de l’attaque critique à part : le Barbare ne perdra ces PV qu’à la fin de la rage.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Furie du berserk",
+          "description": "Au lieu de la Rage du berserk, le Barbare peut entrer s’il le souhaite en Furie du berserk, qui lui donne +3 en attaque et +2d6 aux DM pour une pénalité en DEF de -6. La difficulté du test de SAG pour sortir prématurément de cet état passe à 16.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    }
+  ]
+}

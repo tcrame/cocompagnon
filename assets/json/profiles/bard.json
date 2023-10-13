@@ -1,0 +1,209 @@
+{
+  "name": "Barde",
+  "healthDice": "1D6",
+  "magicModificator": "CHA",
+  "weaponsAndArmors": "Le Barde sait manier les armes à 1 main. Il peut porter jusqu’à l’armure de cuir renforcée et ne peut pas manier le bouclier.",
+  "startEquipment": ["Rapière (DM 1d6, Crit 19-20)", "dague (DM 1d4)", "instrument de musique", "armure de cuir (DEF +2)"],
+  "paths": [
+    {
+      "name": "Voie de l'escrime",
+      "capacities": [
+        {
+          "name": "Précision",
+          "description": "Le Barde peut utiliser son score d’attaque à distance pour combattre au contact lorsqu’il emploie une arme à une main légère comme une dague, une épée courte ou une rapière.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Intelligence du combat",
+          "description": "Le Barde ajoute son Mod. d’INT en Initiative et en DEF en plus de son Mod. de DEX.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Feinte",
+          "description": "Le Barde effectue une attaque fictive pour déséquilibrer son adversaire et réaliser ensuite une attaque mortelle. Faites un test d’attaque normal à ce tour mais n’infligez aucun dégât. Au tour suivant, si vous attaquez le même adversaire, vous profiterez d’un bonus de +5 en attaque et, si votre feinte était réussie, de +2d6 aux DM.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Attaque flamboyante",
+          "description": "Le style de combat du Barde est flamboyant et surprenant : avec cette Capacité, il effectue une attaque de contact avec un bonus d’attaque et de DM égal à son Mod. de CHA (en plus du Mod. de FOR ou de DEX).",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Botte mortelle",
+          "description": "Lors d’une attaque au contact, s’il obtient un score total d’attaque supérieur ou égal à la DEF de son adversaire +10 points, le Barde obtient un bonus de +2d6 aux DM de son attaque.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du musicien",
+      "capacities": [
+        {
+          "name": "Chant des héros",
+          "description": "Le barde chante et inspire ses compagnons : tous les alliés à portée de voix obtiennent un bonus de +1 à tous leurs tests pendant [5+ Mod. de CHA] tours.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Attaque sonore",
+          "description": "Le barde pousse un cri dont les effets sont dévastateurs (ou produit un son avec un instrument à cette même fin). Sur un test d’attaque magique réussi, il inflige [1d6 + Mod. de CHA] DM à toutes les cibles lui faisant face sur une portée de 10 m.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Zone de silence",
+          "description": "Le Barde crée une zone de silence fixe de 5 mètres de diamètre, jusqu’à une portée de 30 mètres, pendant [1d6+Mod. de CHA] tours. Tous les sons émis dans cette sphère sont annulés. La zone n’empêche pas le lancement des sorts mais inflige un malus de -2 à tous les tests d’attaque magique.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Danse irrésistible",
+          "description": "Le barde joue une gigue endiablée aux effets magiques. S’il réussit un test d’attaque magique contre la créature qu’il cible, celle-ci se met à danser pendant [1d4+Mod. de CHA] tours et subit un malus de -4 aux tests d’attaque et en DEF.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Musique fascinante",
+          "description": "Le Barde joue de la musique pour fasciner et «contrôler» toutes les créatures de son choix (rats, gobelins, humains, etc.) dans un rayon de 30 m. Seules les créatures dont les PV sont inférieurs ou égaux à [5 + Mod. de CHA] du Barde répondent. Les créatures sortent de leur cachette et se dirigent vers le Barde, elles le suivent tant qu’il continue à jouer. Quand il utilise cette capacité le Barde peut également se déplacer de 10 m par tour.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie du saltimbanque",
+      "capacities": [
+        {
+          "name": "Acrobate",
+          "description": "Le Barde obtient un bonus de +2 par rang à tous ses tests de DEX visant à réaliser des acrobaties, tenir en équilibre, faire des sauts ou de l’escalade.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Grâce féline",
+          "description": "Le Barde ajoute son Mod. de CHA en DEF et en Initiative (en plus du Mod. habituel de DEX).",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Lanceur de couteau",
+          "description": "Une fois par tour, en plus de ses autres actions, le Barde peut lancer un couteau sur une cible à distance (maximum 10 m) en réussissant un test d’Attaque à Distance. Cette attaque est pour lui une action gratuite. Elle occasionne [1d4 + Mod. de DEX] de DM.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Esquive acrobatique",
+          "description": "Une fois par tour, le Barde peut réaliser une esquive en réussissant un test d’Attaque à Distance contre une Difficulté égale au score obtenu par son adversaire lors de son attaque. En cas de réussite, le Barde ne subit aucun DM. Si cette attaque était un critique, il subit tout de même des DM normaux (et annule donc l’effet critique «dégâts doublés»).",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Liberté d'action",
+          "description": "Le barde est immunisé à la peur et à tous les sorts ou effets magiques qui asservissent l’esprit ou le corps (possession, charme, paralysie, ralentissement, etc.).",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de la séduction",
+      "capacities": [
+        {
+          "name": "Charmant",
+          "description": "Le Barde obtient un bonus de +2 par rang atteint dans cette voie pour tous ses tests de CHA visant à séduire, baratiner ou mentir.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Dentelles et rapière",
+          "description": "Le Barde ne met pas d’armure, cela ne sied point en société. Sa seule armure est la dentelle, sa seule défense, la rapière. Lorsqu’il ne porte aucune armure et combat avec une rapière ou une épée, le Barde obtient un bonus de +1 en DEF contre les attaques au contact par Rang possédé dans cette Voie.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Arme secrète",
+          "description": "Une fois par combat, le Barde peut utiliser un subterfuge de séducteur pour surprendre et déstabiliser un adversaire du sexe opposé. Ce peut être un baiser fougueux soudainement délivré au cœur d’une mêlée, un sein qui s’échappe d’un bustier par mégarde, une main qui s’égare par le plus grand des hasards… Il doit réussir un test de CHA de difficulté égale à l’INT de son adversaire. En cas de succès celui-ci subit un malus de -10 en attaque et en DEF pendant 1 tour.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Suggestion",
+          "description": "Une fois par jour, le Barde peut suggérer une action à une créature en réussissant un test d’attaque magique avec pour difficulté les PV maximum de celle-ci. En cas de réussite la créature fera tout son possible pour satisfaire sa demande pendant 24 heures. Elle évitera les actions suicidaires (ce qui lui donnerait immédiatement un test d’INT difficulté 10 pour échapper au sort).",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Charisme héroïque",
+          "description": "Le personnage augmente sa valeur de CHA de +2. Il peut de plus lancer deux d20 à chaque fois qu’un test de CHA lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du vagabond",
+      "capacities": [
+        {
+          "name": "Rumeurs et légendes",
+          "description": "A force de voyager, le Barde a appris toutes sortes de choses, il obtient un bonus de +2 par Rang dans cette voie aux tests d’INT pour se «souvenir» d’une information historique, politique, géographique ou occulte qui pourrait lui être utile.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Compréhension des langues",
+          "description": "Ce sort permet au Barde de lire, écrire et parler n’importe quelle langue ancienne ou vivante pendant [1d6 + Mod. de CHA] minutes.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Débrouillard",
+          "description": "Le Barde obtient un bonus de +5 à tous ses tests de survie en nature et aux tests de profession et d’artisanat (forge, charpentier, etc.).",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Déguisement",
+          "description": "Ce sort permet au Barde de prendre l’apparence de n’importe quelle créature de taille à peu près équivalente (avec une marge d’environ 50 cm). S’il veut imiter une personne en particulier, il lui faudra réussir un test de CHA de difficulté égale à l’INT de son adversaire. En cas de succès celui-ci subit un malus de -10 en attaque et en DEF pendant 1 tour.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Touche à tout",
+          "description": "Le Barde peut choisir n’importe quelle capacité de Rang 1 à 3 de son choix au sein d’un autre Profil de Chroniques Oubliées.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    }
+  ]
+}

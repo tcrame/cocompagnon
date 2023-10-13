@@ -27,17 +27,25 @@ class Monster {
 }
 
 enum MonsterType {
-  alive("Vivant"),
-  non_living("Non Vivant"),
-  humanoid("Humanoïde"),
-  vegetative("Végétative");
+  alive("Vivant", -2),
+  non_living("Non Vivant", -4),
+  humanoid("Humanoïde", 0),
+  vegetative("Végétative", -6),
+  old1("Vielles ou anciennes I", 2),
+  old2("Vielles ou anciennes II", 3),
+  old3("Vielles ou anciennes III", 4);
 
-  const MonsterType(this.label);
+  const MonsterType(this.label, this.treasureModifier);
 
   final String label;
+  final int treasureModifier;
 
   static MonsterType fromName(String? nameString) {
     return MonsterType.values.firstWhere((element) => element.name == nameString, orElse: () => MonsterType.alive);
+  }
+
+  static MonsterType fromModifier(int? modifier) {
+    return MonsterType.values.firstWhere((element) => element.treasureModifier == modifier, orElse: () => MonsterType.humanoid);
   }
 }
 

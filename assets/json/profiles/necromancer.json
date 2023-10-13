@@ -1,0 +1,213 @@
+{
+  "name": "Nécromancien",
+  "healthDice": "1D4",
+  "magicModificator": "INT",
+  "weaponsAndArmors": "Le Nécromancien sait manier la dague et le bâton ferré. Il ne peut porter aucune armure (sauf si celle-ci est faite de tissu) et ne peut pas manier le bouclier.",
+  "startEquipment": [
+    "Bâton ferré (DM 1d6)",
+    "dague (DM 1d4)",
+    "potion de soins (guérit 1d8 PV)"
+  ],
+  "paths": [
+    {
+      "name": "Voie du démon",
+      "capacities": [
+        {
+          "name": "Malédiction",
+          "description": "Effectuez un test d’attaque magique contre une cible à moins de 20 mètres. En cas de succès, la victime réalise tous ses tests avec deux d20 et garde le résultat le plus faible. Le sort prend fin dès qu’elle aura raté trois tests (il n’y a sinon aucune limite de temps). Si la cible possède une capacité lui permettant de lancer deux dés et de garder le meilleur, elle ne lance plus qu’un seul dé.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Aspect de la succube",
+          "description": "Le Nécromancien acquiert une beauté fascinante pour [5 + Mod. d’INT] tours. Il gagne un bonus de +5 aux tests de CHA ainsi qu’une attaque de contact nécessitant un test d’attaque magique et qui inflige [1d4 + Mod. de CHA] DM. Ces DM sont transformés en PV, au bénéfice du Nécromancien (sans dépasser son score max de PV).",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Pacte sanglant",
+          "description": "Par une action gratuite, le Nécromancien sacrifie 1d4 PV et gagne immédiatement +3 sur un jet de d20 de son choix ou en DEF contre une attaque. À partir du Rang 5 dans la voie, il peut sacrifier 2d4 PV pour faire passer ce bonus à +5.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Aspect du démon",
+          "description": "Le Nécromancien prend l’apparence d’un démon pendant [5 + Mod. d’INT] tours. Il gagne + 2 en attaque au contact, en DEF et à tous les tests physiques (FOR, DEX, CON). Il peut faire deux attaques de griffe à 1d6+4 DM à chaque tour, en action limitée (une seule en action d’attaque). Ne se cumule pas avec l’Aspect de la succube.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Invocation d’un démon",
+          "description": "Une fois par combat, en sacrifiant 1d6 PV, le Nécromancien invoque un démon à son service pour [5 + Mod. d’INT] tours. Ce démon possède l’apparence d’un Balor en plus petit (environ 2m30). Le démon divise par deux tous les DM non magiques subis, les sorts et les armes magiques lui infligent des DM normaux. Il est capable de voler à une vitesse équivalente à un déplacement normal. Démon : FOR +5*, DEX +2, CON +4*, INT +2, SAG +2, CHA +0, Init 16, DEF 17, PV [niveau x 5], Attaque au contact = [niveau du nécromancien], DM 1d8+5",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de la mort",
+      "capacities": [
+        {
+          "name": "Siphon des âmes",
+          "description": "Chaque fois qu’une créature meurt à moins de 20 m du Nécromancien, il récupère 1d6 PV.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Masque mortuaire",
+          "description": "Pendant [5 + Mod. d’INT] tours, le Nécromancien prend l’apparence de la mort. Il est immunisé aux attaques qui n’affectent que les vivants et à la plupart des pouvoirs des mort-vivants (de plus, ceux-ci le prennent pour l’un des leurs). Il retranche 2 points à tous les DM physiques subits et divise par deux tous les DM de froid.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Baiser du vampire",
+          "description": "Ce sort nécessite la réussite d’un test d’attaque magique (portée 50 m). La cible subit [1d8+Mod. d’INT] DM et le Nécromancien récupère autant de PV (sans dépasser son score max de PV).",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Briser les cœurs",
+          "description": "Le Nécromancien fait mine de broyer le coeur de sa victime. Il doit réussir une attaque magique (portée 20 m) et inflige [5d6 + Mod. d’INT] DM. La victime divise les DM par deux si elle réussit un test de CON difficulté [10 + Mod. d’INT].",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Mot de mort",
+          "description": "Le Nécromancien doit réussir un test d’attaque magique contre le score max de PV de sa cible (portée 10 m). La victime doit réussir un test de CON difficulté [ 10 + Mod. d’INT] ou tomber à 0 PV.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de l’outre-tombe",
+      "capacities": [
+        {
+          "name": "Peur",
+          "description": "Le Nécromancien effectue un test d’attaque magique contre une cible (portée 20 m). Celle-ci doit réussir un test de FOR ou de SAG (au choix) difficulté [10 + Mod. d’INT] ou fuir pendant [1d4 + rang] tours (le MJ peut garder cette durée secrète). Une créature ne peut subir les effets de ce sort qu’une fois par combat.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Animation des morts",
+          "description": "Le Nécromancien anime le cadavre d’un humanoïde de taille moyenne, décédé depuis moins d’une heure. Le zombi comprend les ordres « Attaquer », « Suivre », « Garder » et « Pas bouger ». Zombie : Init 8, DEF 10, PV 12, Att +3, DM 1d6+1, se déplace à 50% de la vitesse normale. Le zombi se dégrade et perd 1PV par minute. Le Nécromancien peut contrôler un zombi par rang. Un zombi détruit tombe en poussière.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Putréfaction",
+          "description": "En réussissant un test d’attaque magique (portée 10 m), le Nécromancien fait pourrir les chairs de sa victime, infligeant [1d6 + Mod. d’INT] DM. La victime subit un malus de -2 à tous ses tests pour le reste du combat, à moins de réussir un test de CON difficulté [12 + Mod. d’INT].",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Ensevelissement",
+          "description": "Une fois par combat, si le Nécromancien réussit un test d’attaque magique (portée 20 m), le sol s’ouvre sous les pieds d’une cible de taille moyenne et l’enterre vivante. Tant qu’elle est ensevelie, elle subit 2d6 DM par tour, ne peut agir ni être la cible d’attaques extérieures. À son tour, elle peut tenter de sortir de terre en réussissant un test de FOR ou de DEX (au choix) difficulté [13 + Mod. d’INT]. Si elle tombe à 0 PV, elle reste enterrée et décède au tour suivant. Chaque personne qui creuse pour l’aider lui octroie un bonus de +2 sur son test.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Armée des morts",
+          "description": "Une fois par jour, le Nécromancien peut invoquer d’innombrables squelettes émergeant du sol pour attaquer ses ennemis pendant [niveau du nécromancien] tours. Les cibles situées dans un rayon de 20 m autour du Nécromancien subissent automatiquement 3d6 DM par tour, à moins qu’elles n’utilisent une action limitée pour s’opposer aux squelettes (ce qui réduit les DM à 1d6). Les squelettes restent autour du Nécromancien et se déplacent en même temps que lui dans une zone de 20 m de rayon. Tous les déplacements dans cette zone (même ceux des alliés) sont divisés par deux.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie du sang",
+      "capacities": [
+        {
+          "name": "Saignements",
+          "description": "Le Nécromancien doit réussir un test d’attaque magique (portée 10 m). Du sang s’écoule de la bouche, du nez, des oreilles et même des yeux de la victime, qui subit 1d6 DM par tour pendant [rang] tours.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Sang mordant",
+          "description": "Pendant [5 + Mod. d’INT] tours, le sang du Nécromancien se transforme en un acide qui gicle lorsqu’il subit une blessure. Chaque fois qu’un ennemi au contact le blesse, ce dernier subit 1d6 DM d’acide.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Exsangue",
+          "description": "Lorsque le nécromant tombe à 0 PV, il peut continuer à agir mais avec un malus de -2 à tous ses tests. Une nouvelle attaque réussie infligeant au moins 1 point de DM finira par l’achever !",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Hémorragie",
+          "description": "Si le Nécromancien réussit un test d’attaque magique (portée 10 m), la victime saigne à la moindre blessure. Tous les DM des armes blanches infligées à la cible augmentent de 1d6 pendant [5 + Mod. d’INT] tours.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Lien de sang",
+          "description": "En réussissant un test d’attaque magique (portée 20 m), le Nécromancien tisse un lien avec sa victime. Pendant [5 + Mod. de d’INT] tours, la moitié des DM reçus par le Nécromancien sont également subis par la cible et le Nécromancien peut lui lancer un sort sans la voir.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de la sombre magie",
+      "capacities": [
+        {
+          "name": "Ténèbres",
+          "description": "Le Nécromancien invoque une zone fixe de ténèbres magiques, de 10 m de diamètre, pour une durée de [5 + Mod. d’INT] tours. Même les créatures capables de voir dans le noir sont aveuglées dans cette zone.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Pattes d’araignée",
+          "description": "Le Nécromancien peut se déplacer de 10 m par action de mouvement sur les murs et les plafonds pendant [5 + Mod. d’INT] tours. S’il reste immobile, il peut lancer des sorts.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Strangulation",
+          "description": "En réussissant un test d’attaque magique (portée 20 m), le Nécromancien étouffe une créature vivante et lui inflige [1d6 + Mod. d’INT] DM par tour pendant [rang] tours pourvu qu’il maintienne sa concentration par une action limitée. La victime subit un malus égal au nombre de tours d’effet de la Strangulation (-1 au premier tour, -2 au second, etc.) à tous ses tests. Si la victime sort du champ de vision du Nécromancien, le sort prend fin.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Ombre mortelle",
+          "description": "L’ombre de la cible du Nécromancien attaque son propriétaire pendant [3 + Mod. d’INT] tours (portée 20 m). L’ombre poursuit sa cible partout où elle se réfugie. Ombre : 1 attaque par tour, att = att de la cible, DM = DM de la cible divisés par 2.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Intelligence héroïque",
+          "description": "Le personnage augmente sa valeur d’INT de +2 et il peut désormais lancer deux d20 à chaque fois qu’un test d’INT lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    }
+  ]
+}

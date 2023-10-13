@@ -1,0 +1,209 @@
+{
+  "name": "Chevalier",
+  "healthDice": "1D10",
+  "magicModificator": null,
+  "weaponsAndArmors": "Le Chevalier sait manier toutes les armes de contact, mais il dédaigne les armes à distance qu’il considère comme des armes de couard. Il sait manier le bouclier et peut porter toutes les armures jusqu’à l’armure de plaques complète.",
+  "startEquipment": ["Épée longue (DM 1d8)", "grand bouclier (DEF +2)", "lance de cavalerie (DM 2d6)", "dague (DM 1d4)", "armure de demi-plaque (DEF +6)"],
+  "paths": [
+    {
+      "name": "Voie du cavalier",
+      "capacities": [
+        {
+          "name": "Fidèle monture",
+          "description": "Le Chevalier possède un puissant destrier, c’est un cheval de guerre bien dressé qui comprend les ordres simples. À cheval, il peut ajouter un déplacement de 10 m avant ou après une action normale (par exemple faire 10 m et une action limitée). La monture n’attaque que si elle est elle-même attaquée au contact par une créature. Fidèle monture : FOR +4, DEX +0, CON +4, INT -2, SAG +0, CHA +0, Init 10, DEF 13, PV 15, Ruade +5, DM 1d6+4",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Cavalier émérite",
+          "description": "Lorsqu’il est en selle, le Chevalier gagne un bonus de +2 en attaque au contact, et sa monture obtient une DEF égale à celle du Chevalier. Monter ou descendre de cheval est désormais une action gratuite.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Monture magique",
+          "description": "Le chevalier obtient une monture magique, qui peut apparaître et disparaître depuis un autre plan à volonté. Il peut l’invoquer à tout moment (c’est une action limitée) et elle apparaît alors pour se mettre à son service. Lorsqu’il la laisse au moins une heure dans son plan d’origine, elle guérit l’ensemble de ses PV.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Charge",
+          "description": "A cheval, le chevalier peut effectuer un déplacement de 40 m en ligne droite, et une attaque de contact placée au moment son choix. Il doit parcourir au moins 10 m avant d’attaquer, mais peut réaliser le reste du déplacement à sa guise. Le joueur lance deux d20 à son test d’attaque et garde le meilleur résultat, tout en ajoutant +1d6 aux DM. Une créature située sur la trajectoire de la charge doit réussir un test de FOR difficulté 18 ou être contrainte de céder le passage en subissant 1d6 DM. Si elle réussit ce test, la Charge est bloquée et le tour du Chevalier se termine.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Monture fantastique",
+          "description": "Le chevalier obtient une monture volante (pégase, griffon, hippogriffe, drake, etc.). Init 15, DEF 16, PV [5 × niveau], Att +8, DM 1d6+4. Lorsqu’il est en selle, le chevalier peut faire attaquer sa monture une fois par tour (action gratuite), à la même Initiative que lui, avec un score d’attaque égal à son niveau +3. En vol, la monture couvre une distance de 30 m par action de mouvement. Les capacités de la #Monture magique s’appliquent également.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de la guerre",
+      "capacities": [
+        {
+          "name": "Armure sur mesure",
+          "description": "L’armure du Chevalier est parfaitement ajustée, aussi il n’ajoute que la moitié de sa DEF à la difficulté des tests pour lesquels l’armure inflige une pénalité (de même pour les casques). Si vous n’utilisez pas la règle de pénalité des armures, le chevalier obtient un bonus de +1 en DEF lorsqu’il porte une armure métallique.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Encaisser un coup",
+          "description": "Le chevalier se place de façon à dévier un coup sur son armure. À son tour, il fait seulement une action d’attaque ou une action de mouvement. Par la suite, à tout moment avant son prochain tour, il peut retrancher aux dégâts subits suite à une attaque au contact un total égal au Mod. de DEF de son armure (plus d’éventuels bonus de magie et de bouclier).",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Coup de bouclier",
+          "description": "Le chevalier peut effectuer à chaque tour une attaque au bouclier avec un d12 au lieu du d20 (action gratuite) qui inflige [1d4 + Mod. de FOR] DM.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Frappe lourde",
+          "description": "Le chevalier effectue une attaque au contact avec 1d12 au lieu du d20 (en ajoutant normalement son score d’attaque). Si l’attaque est réussie, il ajoute +2d6 aux DM. Il ignore la moitié de la réduction des DM de la créature (RD), si elle possède cette capacité.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Force héroïque",
+          "description": "Le personnage augmente sa valeur de FOR de +2 et il peut désormais lancer deux d20 à chaque fois qu’un test de FOR lui est demandé et garder le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du héros",
+      "capacities": [
+        {
+          "name": "Ignorer la douleur",
+          "description": "Une fois per combat, le Chevalier peut noter à part les DM subis par une attaque. Il n’en subira les effets que lorsque le combat sera terminé.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Piqûres d'insecte",
+          "description": "Lorsqu’il porte une armure lourde (demi-plaque ou plus), le Chevalier réduit les DM subis par les attaques à distances d’un montant égal au rang atteint dans cette voie.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Laissez-le-moi !",
+          "description": "Le chevalier met un point d’honneur à combattre le leader ennemi. Lorsqu’il peut aisément être identifié dans un groupe d’au moins 4 créatures, le Chevalier lui inflige +1d6 DM par attaque.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Seul contre tous",
+          "description": "Le chevalier sait faire face à de nombreux adversaires, en tentant de profiter d’une éventuelle faille dans leur garde. Chaque fois qu’un des adversaires l’attaque, il bénéficie d’une action d’attaque immédiate contre celui-ci (valable même si la créature l’attaque plusieurs fois).",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Charisme héroïque",
+          "description": "Le personnage augmente sa valeur de CHA de +2. Il peut de plus lancer deux d20 à chaque fois qu’un test de CHA lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du meneur d'homme",
+      "capacities": [
+        {
+          "name": "Sans peur",
+          "description": "Le Chevalier est immunisé aux attaques de peur et il offre un bonus de [2 + Mod. de CHA] à tous ses alliés contre ce type d’effet.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Intercepter",
+          "description": "Une fois par tour, le Chevalier peut encaisser un coup à la place d’un allié à ses côtés. Il utilise sa DEF plutôt que celle de la cible initiale et retranche aux DM son rang dans la voie.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Exemplaire",
+          "description": "Une fois par tour, le Chevalier permet à un allié qui combat le même adversaire que lui de relancer le d20 d’un test d’attaque, s’il s’agissait d’un d’échec.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Ordre de bataille",
+          "description": "Le chevalier donne des ordres tactiques pertinents au cœur de la bataille. Une fois par tour, il octroie une action supplémentaire gratuite à un allié en vue (une action de mouvement ou une action d’attaque, mais pas une action limitée).",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Charge fantastique",
+          "description": "Une fois par combat, à l’Initiative du Chevalier, lui-même et tous ses alliés en vue bénéficient immédiatement d’un déplacement d’un maximum de 20 m en ligne droite, suivi d’une action d’attaque avec un bonus de +3 au test de réussite et +1d6 aux dégâts. Résolvez d’abord tous les déplacements en commençant par le Chevalier, puis par ordre d’Initiative. Ensuite effectuez toutes les attaques dans le même ordre.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de la noblesse",
+      "capacities": [
+        {
+          "name": "Éduqué",
+          "description": "Le Chevalier sait lire et écrire, il gagne +1 par rang dans la voie à tous les tests d'INT et de CHA.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Autorité naturelle",
+          "description": "Le chevalier obtient un bonus égal à [1 + Mod. de CHA] en Initiative et en DEF. De plus, il bénéficie d’un bonus de +5 aux tests de CHA réalisés pour donner des ordres ou intimider.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Écuyer",
+          "description": "Le Chevalier dispose d’un écuyer à son service (Initiative 14, Défense 14, PV 13, Att +3, DM 1d8+1). Il est absolument loyal à son maître et lui sert de serviteur, il s’occupe de sa monture et de son équipement, prépare le campement, panse les blessures, etc. Grâce à l’écuyer, les armes du Chevalier sont parfaitement affûtées et infligent des critiques sur 19 ou 20. De plus, le Chevalier, sa monture et jusqu’à [1 + Mod. de CHA] alliés récupèrent 2d6 PV supplémentaires chaque nuit s’ils profitent des services de l’écuyer. Tous les frais sont pris en charge par la capacité. Si l’écuyer vient à mourir, le Chevalier en prendra un autre à son service au niveau suivant.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Massacrer la piétaille",
+          "description": "Le Chevalier ajoute +1d6 aux DM contre la piétaille. S’il y a au moins 4 créatures aux statistiques semblables impliquées dans le combat, elles sont assimilées à de la piétaille (même si leur nombre est par la suite réduit à moins de 4 au cours du combat). Les grandes créatures et les cavaliers ne sont jamais considérés comme de la piétaille.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Formation d'élite",
+          "description": "Le chevalier possède les moyens et la culture nécessaire pour obtenir une formation dans n’importe quel domaine qui lui sied. Choisissez une capacité de rang 1 à 3 dans n’importe quel Profil issu de la famille des combattants ou des voyageurs.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../about-page.dart';
 import '../combat-page.dart';
 import '../monsters-page.dart';
+import '../random-treasure-page.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({
@@ -44,6 +45,15 @@ class MenuDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const MonstersPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Générateur de trésor'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RandomTreasurePage()),
               );
             },
           ),

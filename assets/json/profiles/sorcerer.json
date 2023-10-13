@@ -1,0 +1,213 @@
+{
+  "name": "Ensorceleur",
+  "healthDice": "1D4",
+  "magicModificator": "CHA",
+  "weaponsAndArmors": "L’Ensorceleur sait manier la dague et le bâton ferré. Il ne peut porter aucune armure (sauf si elle est faite de tissu) et ne peut pas manier le bouclier.",
+  "startEquipment": [
+    "Bâton ferré (DM 1d6)",
+    "dague (DM 1d4)",
+    "potion de soins (guérit 1d8 PV)"
+  ],
+  "paths": [
+    {
+      "name": "Voie de l'air",
+      "capacities": [
+        {
+          "name": "Murmures dans le vent",
+          "description": "L’Ensorceleur chuchote un message d’une dizaine de mots qui voyage jusqu’à son destinataire. Il peut entendre sa réponse immédiatement. La portée est de 100 m par Rang dans la voie et le personnage doit connaître la cible ou la voir.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Sous tension",
+          "description": "L’Ensorceleur se charge d’énergie électrique pour [5 + Mod. de CHA] tours. Toute créature qui le blesse ou le touche reçoit une décharge infligeant 1d6 DM. Il peut également délivrer une décharge électrique (attaque magique, portée 10 m) infligeant [1d6 + Mod. de CHA] DM.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Télékinésie",
+          "description": "L’Ensorceleur peut déplacer dans les airs un objet inerte ou une cible volontaire (par exemple lui-même) dont le poids n’excède pas 50 kg par Rang, à une portée de 20 m et pendant [5+Mod. de CHA] tours. L’objet peut être déplacé de 10 m par tour au prix d'une action de mouvement. Il est possible de faire tomber un objet sur une cible surprise (DM 1d6 tous les 50 kg).",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Foudre",
+          "description": "L’Ensorceleur produit un éclair sur une ligne de 10 mètres. Toutes les créatures sur la trajectoire sont soumises à un test d’attaque magique et subissent [4d6 + Mod. de CHA] DM en cas de réussite. Les victimes peuvent tenter un test de DEX difficulté [12 + Mod. de DEX] pour ne subir que la moitié des DM.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Forme éthérée",
+          "description": "L’Ensorceleur et tout son équipement deviennent translucides et intangibles pendant [5 + Mod. de CHA] tours. Sous cette forme, il peut passer à travers murs et obstacles, et ne peut subir aucun DM physiques.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de la divination",
+      "capacities": [
+        {
+          "name": "6ème sens",
+          "description": "L’Ensorceleur sait toujours légèrement en avance ce qui va arriver. Il gagne un bonus de +1 par Rang dans la Voie en Initiative et en DEF, ainsi qu’un bonus de +2 par Rang à tous les tests pour éviter d’être surpris.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Détection de l'invisible",
+          "description": "Pendant [5 + Mod. de CHA] tours, l’Ensorceleur détecte les créatures invisibles ou cachées à moins de 30 mètres et détecte si un sort de Clairvoyance affecte l’endroit. Aveuglé, ce sort lui permet de voir normalement.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Clairvoyance",
+          "description": "L’Ensorceleur peut voir et entendre à distance ce qui se passe dans un lieu qu’il connait, tant qu’il reste concentré (action limitée à chaque tour). Les créatures présentes ont droit à un test de SAG difficulté [12 + Mod. de CHA] : en cas de réussite, elles se sentent observées.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Prescience",
+          "description": "Une fois par combat, à la fin d’un tour, le joueur peut décider que tout ce qui s’est passé durant ce tour n’était que la vision d’un futur possible. On rejoue alors le tour depuis le début : les autres personnages ne peuvent pas changer leurs actions, contrairement à l’Ensorceleur qui bénéficie d’un bonus de +10 en Initiative et en DEF.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Hyperconscience",
+          "description": "L’Ensorceleur augmente ses valeurs de SAG et d'INT de +2. Il peut désormais lancer deux d20 à chaque fois qu’un test de SAG ou d'INT lui est demandé et garder le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de l'envoûteur",
+      "capacities": [
+        {
+          "name": "Injonction",
+          "description": "L’Ensorceleur donne un ordre simple (mais pas dangereux pour elle) que la victime doit pouvoir comprendre. Il doit réussir un test d’attaque magique opposé avec la cible (contre attaque au contact si la créature n'en a pas) à une portée de 20 mètres. En cas d’échec, la cible exécutera l’ordre pendant son prochain tour.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Sommeil",
+          "description": "Plonge dans l'inconscience des créatures vivantes pendant [5 + Mod. de CHA] minutes. Affecte un nombre de PV égal au test d'attaque magique de l'Ensorceleur dans une zone de 10 m de diamètre (portée 20 m). Toutes les cibles doivent être d'un Niveau inférieur ou égal à la moitié du Niveau du personnage. Il est possible de les réveiller en les giflant (action d’attaque).",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Confusion",
+          "description": "En réussissant un test d’Attaque magique (portée 20 m), l’Ensorceleur désoriente sa cible pendant [3 + Mod. de CHA] tours. Chaque tour, lancer 1d6 : 1-3 la victime n’agit pas, 4-6 elle attaque la créature la plus proche (au hasard). Chaque fin de tour, elle fait un test de SAG difficulté [10 + Mod. de CHA] pour mettre fin au sort.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Amitié",
+          "description": "Si l’Ensorceleur réussit un test d’Attaque magique (portée 10 m) contre le score max de PV d’une cible humanoïde, celle-ci se comporte comme un ami de longue date tant qu’elle n’est pas attaquée. Elle peut résister au sort avec un test de SAG difficulté [12 + Mod. de CHA], renouvelable une fois par jour.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Domination",
+          "description": "En réussissant un test d’Attaque magique (portée 20 m) en opposition contre un test d’Attaque magique de la cible (ou d’Attaque au contact si la créature n’en a pas), l’Ensorceleur prend contrôle de son esprit pendant [1d4 + Mod. CHA] minutes. Son propre corps devient inactif. La victime peut résister au sort avec un test de SAG difficulté [10 + Mod. de CHA] à chaque fois qu’elle subit des DM. Si la créature meurt pendant la domination, l’Ensorceleur réintègre son corps et subit 1d6 DM.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie des illusions",
+      "capacities": [
+        {
+          "name": "Image décalée",
+          "description": "Pendant [5 + Mod. de CHA] tours, lorsqu’une attaque le touche, l’Ensorceleur lance 1d6 : sur 5-6, il ne subit pas les DM.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Mirage",
+          "description": "L’Ensorceleur crée une illusion visuelle et sonore immobile d’une durée de [5 + Mod. de CHA] minutes (ou tours si l’illusion est animée). Le volume maximum de l’illusion est de 10 m de coté par rang dans la voie (portée 500 m). Divisez ces paramètres par 10 si l’illusion est animée. Interagir avec l’illusion la fait disparaître.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Imitation",
+          "description": "L'ensorceleur peut prendre l’apparence d’une créature de taille proche (+ ou - 50 cm) qu’il voit au moment de l’incantation. Durée [5 + Mod. de CHA] minutes. Toucher l’Ensorceleur (une attaque ou non) met fin au sort.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Dédoublement",
+          "description": "Sur une Attaque magique réussie (portée 20 m), l’Ensorceleur crée un double translucide de la cible pendant [5 + Mod. de CHA] tours. Le double est sous le contrôle de l’Ensorceleur. Il possède les mêmes Caractéristiques que l’original mais seulement la moitié de ses PV et tous les DM qu’il inflige sont divisés par deux. Il disparaît si ses PV tombent à 0. Une créature ne peut être dédoublée qu’une fois par combat.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Tueur fantasmagorique",
+          "description": "Ce sort invoque les pires terreurs d’une créature vivante et lui fait croire à sa propre mort. L’Ensorceleur doit réussir un test d’Attaque magique (portée 20 m) en opposition à un test d’Attaque magique de la cible (ou attaque au contact si la créature n’en a pas). La victime fait un test de SAG difficulté [10 + Mod. de CHA] pour résister. En cas d’échec, elle tombe à 0 PV. En cas de succès, elle perd l’équilibre et tombe par terre. Une créature ne peut être la cible de ce sort qu’une fois par jour, et l’Ensorceleur ne peut pas affecter un personnage ou une créature de niveau supérieur au sien.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de l'invocation",
+      "capacities": [
+        {
+          "name": "Familier",
+          "description": "Le personnage choisit un petit animal (corbeau, chat, furet, serpent…). Il peut utiliser les sens de son familier et communiquer avec lui à distance illimitée. Il gagne de plus +2 en Initiative lorsque son familier est en vue. Familier : DEF [personnage], Init [personnage], PV [il les partage avec ceux de son maître], ils forment une cible unique pour les attaques de zone. FOR -4, DEX +3, CON 0, INT -2, SAG +1, CHA -2.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Serviteur invisible",
+          "description": "Ce sort crée une force invisible pendant [5 + Mod. de CHA] minutes. Le serviteur peut effectuer à distance des tâches simples ne nécessitant pas de test de réussite et aucun score de Caractéristique supérieur à 10 (portée 20 m).",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Mur de force",
+          "description": "L’Ensorceleur crée un mur de force indestructible (portée 10 m, maximum 5 m de haut et 10 m de long), ou bien une hémisphère de 3 m de rayon centrée sur lui-même. Le sort dure pendant [5 + Mod. de CHA] tours.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Arme dansante",
+          "description": "Le sort crée une lame d’énergie lumineuse pendant [5 + Mod. de CHA] tours. Dès le premier tour, l’Ensorceleur peut lui ordonner d’attaquer une cible de son choix (action gratuite, portée 20 m). L’attaque magique de la lame = attaque magique de l’Ensorceleur, [1d8 + Mod de CHA] DM.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Charisme héroïque",
+          "description": "Le personnage augmente sa valeur de CHA de +2. Il peut de plus lancer deux d20 à chaque fois qu’un test de CHA lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    }
+  ]
+}

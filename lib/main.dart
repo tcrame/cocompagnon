@@ -1,3 +1,4 @@
+import 'package:cocompagnon/utils/shared-preferences-utils.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/monsters-page.dart';
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SharedPreferencesUtils.readProfilesAsync();
     return MaterialApp(
         title: 'Chroniques oubliés compagnon',
         theme: ThemeData(

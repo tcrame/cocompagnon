@@ -1,0 +1,209 @@
+{
+  "name": "Guerrier",
+  "healthDice": "1D10",
+  "magicModificator": null,
+  "weaponsAndArmors": "Le Guerrier sait manier toutes les armes de contact et toutes les armes à distance. Il peut porter jusqu’à l’armure de demi-plaque et manier le bouclier.",
+  "startEquipment": ["Épée longue (DM 1d8)", " épée ou hache à 2 mains (DM 2d6)", " grand bouclier (DEF +2)", " cotte de mailles (DEF +5)"],
+  "paths": [
+    {
+      "name": "Voie du bouclier",
+      "capacities": [
+        {
+          "name": "Protéger un allié",
+          "description": "Le Guerrier accorde le Mod. de DEF de son bouclier à un compagnon de son choix qui se trouve juste à côté de lui (il conserve ce bonus pour lui-même aussi). Il peut changer de compagnon à chaque tour durant sa phase d’Initiative. C’est une action gratuite.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Absorber un coup",
+          "description": "A son tour, le Guerrier fait seulement une action d'attaque ou de déplacement. Par la suite, à tout moment avant son prochain tour, le Guerrier peut effectuer un test d'attaque au contact en opposition à un test réussi d'attaque au contact ou à distance d’un adversaire. En cas de réussite, l’attaque adverse est bloquée par le bouclier.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Absorber un sort",
+          "description": "A son tour, le Guerrier fait seulement une action d'attaque ou de déplacement. Par la suite, à tout moment avant son prochain tour, le Guerrier peut effectuer un test d'attaque magique (Mod. de SAG) en opposition à un test d'attaque magique qui le visait. En cas de réussite, le sort est absorbé par le bouclier et n’a aucun effet sur le Guerrier.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Armure lourde",
+          "description": "Le Guerrier peut porter une Armure de Plaque. Celle-ci lui confère une DEF de +7 et le protège des attaques critiques (vous subissez des DM normaux au lieu des DM doublés).",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Renvoi de sort",
+          "description": "Le Guerrier peut décider de renvoyer un sort qu’il vient d’absorber grâce à sa capacité Absorber un sort. Au lieu d’être annulé, le sort absorbé le tour précédent est retourné contre son expéditeur : le lanceur du sort subit alors les effets de sa propre attaque !",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie du combat",
+      "capacities": [
+        {
+          "name": "Vivacité",
+          "description": "Le Guerrier gagne +3 en Initiative.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Désarmer",
+          "description": "Le Guerrier réalise une attaque au contact et sa victime doit faire un test d'attaque opposé. Si le Guerrier obtient le plus haut score, l’arme de son adversaire tombe au sol (une action de mouvement doit être employée pour la ramasser). Si le Guerrier réussit son test avec au moins 10 points de plus que son adversaire, il empêche celui-ci de récupérer son arme (en posant le pied dessus, en l’envoyant hors de portée, etc.). Cette capacité est évidemment sans effet sur les armes naturelles (griffes, crocs, épine dorsale, etc.). Les adversaires qui utilisent des armes à 2 mains sont plus difficiles à désarmer, infligeant un malus de -5 au test.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Double attaque",
+          "description": "Le Guerrier peut tenter deux attaques au contact durant ce tour avec un malus de -2.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Attaque circulaire",
+          "description": "Le Guerrier peut tenter une attaque au contact contre chaque adversaire engagé au contact avec lui.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Attaque puissante",
+          "description": "Le Guerrier peut choisir d’utiliser 1d12 en attaque au contact au lieu du d20 habituel (il ajoute normalement son score d’attaque). Si une telle attaque est réussie, il ajoute +2d6 aux DM. Cette capacité peut être utilisée avec Double attaque, Attaque circulaire ou Attaque parfaite par exemple.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du maître d'armes",
+      "capacities": [
+        {
+          "name": "Arme de prédilection",
+          "description": "Le Guerrier choisit une arme de prédilection (par exemple épée longue ou hache à 1 main, arc court, etc.), et gagne +1 en attaque lorsqu’il l’utilise.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Science du critique",
+          "description": "Le Guerrier inflige des critiques sur 19-20 (18-20 lorsqu’il emploie une rapière ou une Vivelame).",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Spécialisation",
+          "description": "Lorsque le Guerrier emploie son arme de prédilection, il gagne un bonus de +2 aux DM.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Attaque parfaite",
+          "description": "Lancez deux d20 en attaque au contact et gardez le meilleur résultat, ajoutez +1d6 aux DM.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Riposte",
+          "description": "En plus de ses actions normales, une fois par tour, lorsqu’un adversaire rate une attaque de contact contre le Guerrier, le joueur obtient une attaque supplémentaire contre cet adversaire.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de la résistance",
+      "capacities": [
+        {
+          "name": "Robustesse",
+          "description": "En prenant cette capacité, le Guerrier gagne 3 PV supplémentaires au Rang 1, puis 3 PV de plus au Rang 3 de cette Voie et enfin 3 PV au Rang 5.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Armure naturelle",
+          "description": "Le Guerrier a endurci son corps. Il bénéficie d’un bonus de +2 à la DEF. Ce bonus passe à +4 lorsqu’il atteint le rang 4 de la voie.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Second souffle",
+          "description": "Une fois par combat, le Guerrier peut décider de ne pas attaquer lors du tour de combat pour reprendre son souffle. Il récupère alors [1d10 + niveau + Mod. de CON] PV.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Dur à cuire",
+          "description": "Le Guerrier reçoit un bonus de +5 à tous ses tests de CON. De plus, lorsqu’il tombe à 0 PV, il peut continuer à agir pendant un ultime tour avant de tomber inconscient.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": false
+        },
+        {
+          "name": "Constitution héroïque",
+          "description": "Le personnage augmente son score de CON de +2 et il peut désormais lancer deux d20 à chaque fois qu’un test de CON lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du soldat",
+      "capacities": [
+        {
+          "name": "Posture de combat",
+          "description": "Au début de votre tour, choisissez d’appliquer jusqu’à -1 par rang en attaque, en DEF ou aux DM et obtenez l’équivalent en bonus au choix en attaque, en DEF ou aux DM jusqu’à votre prochain tour.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Combat en phalange",
+          "description": "Lorsque vous combattez la même créature qu’un allié, vous gagnez +1 en attaque et en DEF par allié au contact avec vous et avec la créature.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Prouesse",
+          "description": "Le Guerrier réussit souvent des exploits physiques hors-norme. Une fois par tour, vous pouvez sacrifier 1d4 PV pour obtenir +5 sur un test de FOR ou de DEX. Vous pouvez annoncer l’utilisation de cette capacité après avoir pris connaissance du résultat du test de Caractéristique.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Dernier rempart",
+          "description": "Le Guerrier effectue uniquement une attaque au contact durant ce tour. En contrepartie, il bénéficie d’une attaque supplémentaire contre tout ennemi qui se déplace à son contact. Un adversaire blessé par cette attaque voit son déplacement stoppé.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Force héroïque",
+          "description": "Le personnage augmente sa valeur de FOR de +2 et il peut désormais lancer deux d20 à chaque fois qu’un test de FOR lui est demandé et garder le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    }
+  ]
+}

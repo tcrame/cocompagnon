@@ -1,0 +1,211 @@
+{
+  "name": "Moine",
+  "healthDice": "1D8",
+  "magicModificator": "SAG",
+  "weaponsAndArmors": "Le Moine ne peut pas porter d’armure. Il sait manier toutes les armes, y compris celles à 2 mains, sauf les armes à poudre. Mais la plupart des Moines n’y font pas appel et sont plus efficaces à mains nues.",
+  "startEquipment": [
+    "Bâton ferré (DM 1d6)"
+  ],
+  "paths": [
+    {
+      "name": "Voie de l’énergie vitale",
+      "capacities": [
+        {
+          "name": "Mains d’énergie",
+          "description": "Par un effort de concentration, le Moine peut rendre ses mains intangibles, à ce tour, il peut faire une attaque simple avec un bonus +2 en attaque, +5 si la cible porte une armure. De plus, toutes les attaques à mains nues du Moine sont considérées comme magiques (même lorsqu’il n’utilise pas Mains d’énergie).",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Pression mortelle",
+          "description": "Le Moine frappe les points par lesquels circule l’énergie vitale d’une créature vivante. En touchant un point précis, il libère ensuite des effets dévastateurs. Lorsqu’il combat à mains nues, le joueur peut choisir de ne pas infliger immédiatement les DM de ses attaques. À tout moment dans l’heure qui suit, il peut annoncer une « Pression Mortelle ». Il doit alors réussir un test d'attaque contre la cible, ce qui libère instantanément la totalité des DM infligés jusqu’alors +1d6 DM supplémentaires.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Invulnérable",
+          "description": "Le Moine ne reçoit que la moitié des DM de toutes les sources «élémentaires» : feu, froid, foudre, acide... Il ne subit aucun DM des poisons ou des maladies.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Projection du ki",
+          "description": "Le Moine projette une vague de force avec son corps et son esprit à une distance maximum de 20 mètres. Un test d’attaque magique réussi (Mod. de SAG) lui permet d’infliger [2d6 + Mod. de SAG] de DM.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Ascétisme",
+          "description": "Le Moine peut subsister sans nourriture, sans eau et sans sommeil pendant [5 + Mod. SAG] jour. Il ne subit aucune pénalité durant cette période. De plus, il peut désormais lancer deux d20 à chaque fois qu’un test de CON lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de la maîtrise",
+      "capacities": [
+        {
+          "name": "Esquive du singe",
+          "description": "Le Moine peut se déplacer avant et après avoir attaqué (mais il couvre toujours une distance normale). De plus, il gagne +1 par rang dans la Voie en Initiative.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Morsure du serpent",
+          "description": "Le Moine peut dévier un projectile (flèche, javelot,...) une fois par tour de combat (sauf si le test d’attaque est un critique ou si l’attaque vient d’une arme à poudre)...",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Griffes du tigre",
+          "description": "Le Moine gagne un bonus de +2 en DEF.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Fureur du dragon",
+          "description": "A son tour, le Moine peut effectuer 2 attaques à mains nues sur des cibles de son choix ou 2 attaques avec une arme. Alternativement, il peut choisir de faire 3 attaques en utilisant un d12 en attaque pour chacune d’elle (au lieu d’un d20).",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Moment de perfection",
+          "description": "Le Moine peut choisir d’utiliser 1d12 en attaque au lieu du d20 habituel (et il ajoute normalement son score d’attaque). Si l’attaque est réussie, il ajoute 2d6 aux DM. Cette capacité peut être utilisée avec Déluge de coups ou Projection du ki par exemple.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de la méditation",
+      "capacities": [
+        {
+          "name": "Pacifisme",
+          "description": "Tant que le Moine n’a réalisé aucune action offensive dans un combat, il bénéficie d’un bonus en DEF de +5.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Transe de guérison",
+          "description": "Une fois après chaque combat, le Moine peut méditer pendant 10 minutes et récupérer ainsi [niveau + Mod de SAG] PV.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Maîtrise du ki",
+          "description": "Le Moine utilise son intuition et son empathie avec le monde pour augmenter son efficacité en combat. Il ajoute son Mod. de SAG à son Initiative et sa DEF.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Projection mentale",
+          "description": "Le Moine entre en méditation et projette son esprit hors de son corps. Celui-ci ressemble à un ectoplasme de couleur blanche qui se déplace en volant à la vitesse de 10 m par tour. Il peut passer au travers des murs, mais pas des êtres vivants, et il reste relié à son corps d’origine par un long filin argenté. La durée maximum de la projection est de [valeur de SAG] tours. Le Moine ne perçoit le monde que via sa projection mentale mais ressent si des DM sont infligés à son corps.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Sagesse héroïque",
+          "description": "Le personnage augmente sa valeur de SAG de +2. Il peut désormais lancer deux d20 à chaque fois qu’un test de SAG lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du poing",
+      "capacities": [
+        {
+          "name": "Poings de fer",
+          "description": "Lorsqu’il combat à mains nues, le Moine peut (s’il le souhaite) utiliser son score d'attaque à distance au lieu de celui d'attaque au contact. Au rang 1 de cette voie, il inflige [1d6 + Mod. de FOR] DM létaux. Ces DM passent à 1d8 au Rang 3 et à 1d10 au rang 5.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Parade de projectiles",
+          "description": "Le Moine peut dévier un projectile (flèche, javelot,...) une fois par tour de combat (sauf si le test d’attaque est un critique ou si l’attaque vient d’une arme à poudre)...",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Peau de fer",
+          "description": "Le Moine gagne un bonus de +2 en DEF.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Déluge de coups",
+          "description": "A son tour, le Moine peut effectuer 2 attaques à mains nues sur des cibles de son choix ou 2 attaques avec une arme. Alternativement, il peut choisir de faire 3 attaques en utilisant un d12 en attaque pour chacune d’elle (au lieu d’un d20).",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Puissance du ki",
+          "description": "Le Moine peut choisir d’utiliser 1d12 en attaque au lieu du d20 habituel (et il ajoute normalement son score d'attaque). Si l’attaque est réussie, il ajoute 2d6 aux DM. Cette capacité peut être utilisée avec Déluge de coups ou Projection du ki par exemple.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie du vent",
+      "capacities": [
+        {
+          "name": "Pas du vent",
+          "description": "Le Moine peut se déplacer avant et après avoir attaqué (mais il couvre toujours une distance normale). De plus, il gagne +1 par rang dans la Voie en Initiative.",
+          "isMagic": false,
+          "rank": 1,
+          "isLimited": false
+        },
+        {
+          "name": "Course du vent",
+          "description": "Le Moine se déplace à une vitesse surhumaine. Il couvre une distance de 40 mètres par action de mouvement (la distance normale est de 20 mètres) et se relever est pour lui une action gratuite.",
+          "isMagic": false,
+          "rank": 2,
+          "isLimited": false
+        },
+        {
+          "name": "Course des airs",
+          "description": "Le Moine défie les lois de la pesanteur et peut se déplacer sur des surfaces qui ne devraient pas supporter son poids. Il peut se déplacer sur l’eau, la neige, le feuillage des arbres ou courir sur un mur vertical. Il doit commencer et terminer son déplacement sur une surface normale.",
+          "isMagic": false,
+          "rank": 3,
+          "isLimited": false
+        },
+        {
+          "name": "Lévitation",
+          "description": "En se concentrant, le Moine peut « léviter » à une vitesse de 10 m par tour.",
+          "isMagic": false,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Passe-muraille",
+          "description": "Le Moine peut rendre son corps intangible temps de passer au travers d’un mur d’une épaisseur maximum de [Mod. de SAG] mètres. Il ne peut rester immatériel qu’un court instant et reprend corps dès qu’il émerge du mur. Il est insensible aux attaques tant qu’il est entièrement dans le mur, sauf si le mur est détruit.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    }
+  ]
+}

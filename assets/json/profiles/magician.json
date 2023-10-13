@@ -1,0 +1,214 @@
+{
+  "name": "Magicien",
+  "healthDice": "1D4",
+  "magicModificator": "INT",
+  "weaponsAndArmors": "Le Magicien sait manier la dague et le bâton ferré et ne porte que des vêtements en tissu, donc aucune armure.",
+  "startEquipment": [
+    "Bâton (DM 1d6)",
+    "dague (DM 1d4)",
+    "grimoire",
+    "potion de soin (guérit 1d8 PV)"
+  ],
+  "paths": [
+    {
+      "name": "Voie de la magie des arcanes",
+      "capacities": [
+        {
+          "name": "Agrandissement",
+          "description": "Le Magicien ou une cible volontaire voit sa taille augmenter de 50% pendant [5 + Mod. d’INT] tours. Il gagne +2 aux DM au contact et aux tests de FOR. Pataud, il subit un malus de -2 aux tests de DEX.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Forme gazeuse",
+          "description": "Le Magicien prend la consistance d’un gaz. Il se déplace au ras du sol à une vitesse de 10 m par tour. Il peut s’introduire par les plus petits interstices (comme sous une porte) mais ne peut utiliser aucune capacité sous cette forme. Il ne subit pas non plus de DM, à l’exception des sorts de zone occasionnant des DM (comme Boule de feu). Le sort a une durée de [1d4 + Mod. d’INT] tours.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Hâte",
+          "description": "Pendant [1d6 + Mod. d’INT] tours, le Magicien voit son métabolisme s’accélérer. A partir du tour suivant, il obtient une action supplémentaire par tour : soit une attaque normale, soit une action de mouvement. En revanche, il ne peut toujours accomplir qu’une seule action limitée par tour.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Téléportation",
+          "description": "Le Magicien disparaît et réapparaît à un autre endroit situé à moins de [INT x 10] mètres. Le lieu d’arrivée doit être soit en ligne de vue, soit parfaitement connu par le Magicien.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Désintégration",
+          "description": "Le Magicien projette un rayon mortel dont la portée est de 20 mètres. Un test d'attaque magique réussi permet de toucher une créature et d’infliger [5d6 + Mod. d’INT] DM. Si le magicien vise un objet porté par une créature, le jet d’attaque subit un malus de -5.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de la magie destructrice",
+      "capacities": [
+        {
+          "name": "Projectile magique",
+          "description": "Le Magicien choisit une cible visible située à moins de 50 mètres. Elle encaisse automatiquement 1d4 points de dégâts.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Rayon affaiblissant",
+          "description": "Le Magicien choisit une cible située à moins de 10 mètres. Si son attaque magique réussit, le rayon affecte la cible qui subit un malus de -2 à ses tests de FOR, d’attaque au contact et de dégâts, pendant [1d6 + Mod. d’INT] tours.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Flèche enflammée",
+          "description": "Le Magicien choisit une cible située à moins de 30 mètres. Si son attaque magique réussit, la cible encaisse [1d6 + Mod. d’INT] DM et la flèche enflamme ses vêtements.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Boule de feu",
+          "description": "Le Magicien choisit une cible située à moins de 30 mètres. Il fait un test d'attaque magique et le compare à la DEF de tous les personnages se trouvant dans un rayon de 6 mètres autour de la cible.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Rituel de puissance",
+          "description": "Sur une attaque magique, le Magicien peut utiliser un d12 en attaque au lieu du d20 habituel. Si l’attaque est réussie, il ajoute 2d6 aux DM.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    },
+    {
+      "name": "Voie de la magie élémentaire",
+      "capacities": [
+        {
+          "name": "Asphyxie",
+          "description": "Si le Magicien réussit son test d'attaque magique, la créature ciblée est privée d’air et subit 1d6 DM par tour.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Protection contre les éléments",
+          "description": "Pendant [5 + Mod. d’INT] tours, le Magicien retranche à tous les DM de feu, de froid, d’électricité ou d’acide subis un montant égal à 2 fois son Rang dans cette Voie.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Arme enflammée",
+          "description": "Le Magicien peut enflammer une arme pour [5 + Mod. d’INT] tours. Celle-ci inflige +1D6 DM de feu.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Respiration aquatique",
+          "description": "Le Magicien peut respirer sous l’eau pendant 10 minutes. Cette capacité peut être étendue à un compagnon par point de Mod. d’INT.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Peau de pierre",
+          "description": "Le Magicien obtient une réduction des DM égale à [5 + Mod. d’INT] pendant [5+ Mod. d’INT] tours ou jusqu’à ce que le sort ait absorbé 40 points de dégâts.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de la magie protectrice",
+      "capacities": [
+        {
+          "name": "Armure de mage",
+          "description": "Le Magicien fait apparaître un nuage magique argenté qui le protège contre les attaques adverses. Il bénéficie d’un bonus de +4 à la DEF pour le reste du combat.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Chute ralentie",
+          "description": "Le Magicien affecte une cible à moins de 10 mètres avec ce sort. La cible peut chuter de 6 mètres par rang dans la Voie sans subir de dégâts. Si la chute est supérieure à cette hauteur, elle est réduite d’autant.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Flou",
+          "description": "Pendant [1d4 + Mod. d’INT] tours, le corps du Magicien devient flou et tous les DM des attaques de contact ou à distance qu’il encaisse sont divisés par 2.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Cercle de protection",
+          "description": "Le Magicien peut tracer un cercle sur le sol pouvant contenir 3 personnes. Une fois par tour, lorsqu’un sort prend pour cible un personnage situé dans le cercle, le Magicien fait un test d'attaque magique en opposition à celui de l’adversaire.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Arrêt du temps",
+          "description": "Le Magicien arrête le temps pendant [1d6 + Mod. d’INT] tours. Seul le Magicien peut agir à sa guise pendant cette période.",
+          "isMagic": true,
+          "rank": 5,
+          "isLimited": true
+        }
+      ]
+    },
+    {
+      "name": "Voie de la magie universelle",
+      "capacities": [
+        {
+          "name": "Lumière",
+          "description": "Le Magicien désigne un objet, lequel produit de la lumière dans un rayon de 20 mètres.",
+          "isMagic": true,
+          "rank": 1,
+          "isLimited": true
+        },
+        {
+          "name": "Détection de la magie",
+          "description": "Le Magicien se concentre et détecte la présence de toute inscription et de tout objet magique situé dans la pièce où il se trouve.",
+          "isMagic": true,
+          "rank": 2,
+          "isLimited": true
+        },
+        {
+          "name": "Invisibilité",
+          "description": "Le Magicien se rend invisible pendant [1d6 + Mod. d’INT] minutes.",
+          "isMagic": true,
+          "rank": 3,
+          "isLimited": true
+        },
+        {
+          "name": "Vol",
+          "description": "Le Magicien peut voler pendant [1d6 + Mod. d’INT] minutes. Sa vitesse de déplacement est la même qu'au sol.",
+          "isMagic": true,
+          "rank": 4,
+          "isLimited": true
+        },
+        {
+          "name": "Intelligence héroïque",
+          "description": "Le personnage augmente sa valeur d'INT de +2 et il peut désormais lancer deux d20 à chaque fois qu’un test d'INT lui est demandé et conserver le meilleur résultat.",
+          "isMagic": false,
+          "rank": 5,
+          "isLimited": false
+        }
+      ]
+    }
+  ]
+}

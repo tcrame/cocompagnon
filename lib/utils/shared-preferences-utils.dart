@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:cocompagnon/models/profile.dart';
+import 'package:cocompagnon/models/treasure/cloth.dart';
+import 'package:cocompagnon/models/treasure/consumeable.dart';
+import 'package:cocompagnon/models/treasure/treasure.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +13,17 @@ import '../models/monster.dart';
 
 class SharedPreferencesUtils {
   static List<Monster> allMonsters = [];
+  static Map<ProfileType, Profile> profileByType = {};
   static Map<String, dynamic> allMonstersJson = {};
+
+
+  static ProfilePathCapacity getCapacity(ItemPath itemPath, int rank) {
+    ScrollProfile scrollProfile = ScrollProfile.fromCode(itemPath.profileCode);
+    ProfileType profileType = ProfileType.fromName(scrollProfile.name);
+    Profile? profileByType = SharedPreferencesUtils.profileByType[profileType];
+    ProfilePath profilePath = profileByType!.paths.firstWhere((p) => p.name == itemPath.label);
+    return profilePath.capacities.firstWhere((capacity) => capacity.rank == rank);
+  }
 
   static Future<dynamic> restoreMonster(int id) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,7 +43,14 @@ class SharedPreferencesUtils {
 
   static Future<void> readFileAsync() {
     print('--- READ FILE ASYNC ---');
-    return loadAsset().then((c) => importBestiary(c));
+    return loadBestiaryAsset().then((c) => importBestiary(c));
+  }
+
+  static void readProfilesAsync() {
+    print('--- READ PROFILES ASYNC ---');
+    ProfileType.values.forEach((profileType) {
+       loadProfilesAsset(profileType).then((profileJson) => importProfiles(profileJson, profileType));
+    });
   }
 
   static void importBestiary(String json) {
@@ -38,8 +59,18 @@ class SharedPreferencesUtils {
     bestiary.forEach((k, v) => loadCreature(v, int.parse(k)));
   }
 
-  static Future<String> loadAsset() async {
+  static void importProfiles(String json, ProfileType profileType) {
+    Map<String, dynamic> profileJson = jsonDecode(json);
+
+    profileByType[profileType] = Profile.fromJson(profileJson);
+  }
+
+  static Future<String> loadBestiaryAsset() async {
     return await rootBundle.loadString('assets/json/bestiary.json');
+  }
+
+  static Future<String> loadProfilesAsset(ProfileType profile) async {
+    return await rootBundle.loadString('assets/json/profiles/${profile.name}.json');
   }
 
   static Future<void> saveBelligerent(Belligerent belligerent) async {
